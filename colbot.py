@@ -11,17 +11,21 @@ load_dotenv("token.env")
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 # This function is used to retrieve a random quote using the zenquotes api and return it
-def get_quote():
+def inspo_quote():
 
     # Create the response using the requests.get method and the URL
-    response = requests.get("https://zenquotes.io/api/random")
+    try:
+        response = requests.get("https://zenquotes.io/api/random", timeout = 10)
 
-    # Save the JSON array that gets downloaded from the API call
-    json_data = json.loads(response.text)
+        # Save the JSON array that gets downloaded from the API call
+        json_data = json.loads(response.text)
 
-    # Fix the struture and formatting of the quote and return it
-    quote = json_data[0]['q'] + "\n  -" + json_data[0]['a']
-    return quote 
+        # Fix the struture and formatting of the quote and return it
+        quote = json_data[0]['q'] + "\n  -" + json_data[0]['a']
+        return quote
+    except requests.exceptions.RequestException as e:
+        error = f"An error occurred: {e}"
+        return error 
 
 if not TOKEN:
     print("ERROR: Bot token was not found in .env file.")
@@ -49,7 +53,7 @@ async def on_message(message):
             await message.channel.send('It is I, the holy Colbot. Harbinger of Worlds...')
 
         case _ if message.content.startswith('!inspire'):
-            quote = get_quote()
+            quote = inspo_quote()
             await message.channel.send(quote)
 
 client.run(TOKEN)
