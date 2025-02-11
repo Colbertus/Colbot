@@ -88,7 +88,13 @@ async def on_message(message):
             arguments = message.content.split()
 
             if len(arguments) != 2:
-                await message.channel.send('Usage:\n  Need to provide the command along with the one argument that is required\n  Example usage: !mrStats {player id}')
+                usageStatement = (
+                    "Usage:\n  Need to provide the command along with the one"
+                    " argument that is required\n"  
+                    "Example usage: !mrStats {player ID}\nOR\n"
+                    "Example usage: !mrStats {user name}"
+                )
+                await message.channel.send(usageStatement)
 
             ID = arguments[1]
 
@@ -101,5 +107,21 @@ async def on_message(message):
             else:
                 stats = mr.player_stats(ID)
                 await message.channel.send(stats)
+
+        case _ if message.content.startswith('!mrChar'):
+            
+            arguments = message.content.split()
+
+            if len(arguments) < 2:
+                usageStatement = mr.character_names()
+                await message.channel.send(usageStatement)
+                return
+            
+            character = " ".join(arguments[1:])
+
+            stats = mr.character_stats(character)
+
+            await message.channel.send(stats)
+        
 
 client.run(TOKEN)
