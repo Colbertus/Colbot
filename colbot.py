@@ -119,8 +119,9 @@ async def on_message(message):
             
             character = " ".join(arguments[1:])
 
-            stats = mr.character_stats(character)
+            stats, URL = mr.character_stats(character)
 
+            await message.channel.send(URL)
             await message.channel.send(stats)
         
 
