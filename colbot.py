@@ -112,6 +112,9 @@ async def on_message(message):
         case _ if message.content.startswith('!mrChar'):
             
             await message.channel.send("Choose a Character!", view = RoleView())
-            
+
+        case _ if message.content.startswith("!mrRankTotal"):
+            response = mr.rank_totals()
+            await message.channel.send(response)    
 
 client.run(TOKEN)

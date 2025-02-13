@@ -147,3 +147,74 @@ def character_names():
     error: f"An error occurred: {e}"
     return error 
 
+def rank_totals():
+
+  try: 
+    response = requests.get('https://mrapi.org/api/ranks')
+    response.raise_for_status()
+
+    json_data = json.loads(response.text)
+
+    totals = []
+
+    for rank, values in json_data.items():
+      if '1' in values and '2' in values and '3' in values:
+        totals.append(values['1'])
+        totals.append(values['2'])
+        totals.append(values['3'])
+      elif 'total' in values:
+        totals.append(values['total'])
+    
+    count = 0
+    rank = 1
+
+    rank_total = (
+      "## Rank Totals: ##\n"
+      "\n- ***Bronze:***\n"
+    )
+
+    for index, value in enumerate(totals):
+
+      if index == 21:
+        rank_total += "\n- ***Eternity:***\n"
+        rank_total += "**Total:** *" + str(value) + "*\n"
+      elif index == 22:
+        rank_total += "\n- ***One Above All:***\n"
+        rank_total += "**Total:** *" + str(value) + "*\n"
+
+      else:
+        count += 1
+        rank_total += "**" + str(count) + ":** *" + str(value) + "*\n"
+
+        if count % 3 == 0:
+          if rank == 1:
+            rank_total += "\n- ***Silver:***\n"
+            rank += 1
+            count = 0
+          elif rank == 2:
+            rank_total += "\n- ***Gold:***\n"
+            rank += 1
+            count = 0
+          elif rank == 3:
+            rank_total += "\n- ***Platinum:***\n"
+            rank += 1
+            count = 0
+          elif rank == 4:
+            rank_total += "\n- ***Diamond:***\n"
+            rank += 1
+            count = 0
+          elif rank == 5:
+            rank_total += "\n- ***Grandmaster:***\n"
+            rank += 1
+            count = 0
+          elif rank == 6:
+            rank_total += "\n- ***Celestial:***\n"
+            rank += 1
+            count = 0
+    
+    return rank_total
+      
+
+  except requests.exceptions.RequestException as e:
+    error = f"An error occurred: {e}"
+    return error
