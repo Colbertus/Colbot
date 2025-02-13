@@ -4,6 +4,7 @@ import requests
 import json 
 from dotenv import load_dotenv
 import mr_api as mr
+from mr_character_selection import RoleView
 
 # Load the environment file that contains the Colbot token
 load_dotenv("token.env")
@@ -110,19 +111,7 @@ async def on_message(message):
 
         case _ if message.content.startswith('!mrChar'):
             
-            arguments = message.content.split()
-
-            if len(arguments) < 2:
-                usageStatement = mr.character_names()
-                await message.channel.send(usageStatement)
-                return
+            await message.channel.send("Choose a Character!", view = RoleView())
             
-            character = " ".join(arguments[1:])
-
-            stats, URL = mr.character_stats(character)
-
-            await message.channel.send(URL)
-            await message.channel.send(stats)
-        
 
 client.run(TOKEN)

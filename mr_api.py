@@ -100,6 +100,7 @@ def character_stats(character):
     console_ranked_win_rate = str(json_data['meta'][9]['win_rate']) + "%"
 
     stats = (
+      headshot_image_URL + "\n"
       "## Stats for Character: " + character_name + " ##\n"
       "- **PC Quickplay Appearance Rate:** " + "*" + pc_quickplay_appearance_rate + "*" + "\n"
       "- **PC Quickplay Win Rate:** " + "*" + pc_quickplay_win_rate + "*" + "\n\n"
@@ -111,10 +112,10 @@ def character_stats(character):
       "- **Console Ranked Win Rate:** " + "*" + console_ranked_win_rate + "*"
     )
 
-    return stats, headshot_image_URL
+    return stats
   except requests.exceptions.RequestException as e:
     error = f"An error occurred: {e}"
-    return error, error
+    return error
 
 def character_names():
 
