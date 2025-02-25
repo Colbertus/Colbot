@@ -1,18 +1,29 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv("token.env")
+
+MR_API_KEY = os.getenv("MR_API_KEY")
+
+header = {
+    'X-API-Key': MR_API_KEY
+}
 
 def gift_codes(): 
   try: 
-    response = requests.get('https://mrapi.org/api/codes')
+    response = requests.get('https://mrapi.org/api/codes', headers=header)
     response.raise_for_status()
 
     json_data = json.loads(response.text)
 
-    giftCodes = (
-      "Reward: " + json_data[0]['rewards'] +
-      "\nCode: " + json_data[0]['code'] +
-      "\nExpiration: " + json_data[0]['expiringDate']
-    )
+    giftCodes = ("## All of the Valid Gift Codes in Marvel Rivals ##\n")
+
+    for item in json_data: 
+      giftCodes += "- **Reward:** *" + item['rewards'] + "*\n"
+      giftCodes += "  - **Code:** *" + item['code'] + "*\n"
+      giftCodes += "  - **Expiration:** *" + item['expiringDate'] + "*\n\n"
 
     return giftCodes
 
