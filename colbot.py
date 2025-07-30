@@ -4,6 +4,7 @@ import requests
 import json 
 from dotenv import load_dotenv
 import mr_api as mr
+import ow_api as ow
 from mr_character_selection import RoleView
 
 # Load the environment file that contains the Colbot token
@@ -115,6 +116,10 @@ async def on_message(message):
 
         case _ if message.content.startswith("!mrRankTotal"):
             response = mr.rank_totals()
-            await message.channel.send(response)    
+            await message.channel.send(response) 
+
+        case _ if message.content.startswith("!weather"):
+            lat, long = ow.return_coord("Huntsville", "AL")
+            await message.channel.send(response)
 
 client.run(TOKEN)
