@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import http.client
 from dotenv import load_dotenv
 
 load_dotenv("token.env")
@@ -10,39 +11,19 @@ MR_API_KEY = os.getenv("MR_API_KEY")
 header = {
     'X-API-Key': MR_API_KEY
 }
-
-def gift_codes(): 
-  try: 
-    response = requests.get('https://mrapi.org/api/codes', headers=header)
-    response.raise_for_status()
-
-    json_data = json.loads(response.text)
-
-    giftCodes = ("## All of the Valid Gift Codes in Marvel Rivals ##\n")
-
-    for item in json_data: 
-      giftCodes += "- **Reward:** *" + item['rewards'] + "*\n"
-      giftCodes += "  - **Code:** *" + item['code'] + "*\n"
-      giftCodes += "  - **Expiration:** *" + item['expiringDate'] + "*\n\n"
-
-    return giftCodes
-
-  except requests.exceptions.RequestException as e:
-    error = f"An error occurred: {e}"
-    return error
   
 def player_id(name):
     try: 
        
-       response = requests.get('https://mrapi.org/api/player-id/' + name)
+       URL = "https://marvelrivalsapi.com/api/v1/find-player/" + name
+       response = requests.get(URL, headers=header)
        response.raise_for_status()
 
        json_data = json.loads(response.text)
 
-
        playerID = (
-        "Name: " + json_data['name'] + 
-        "\nID: " + json_data['id']
+        "**Name:** *" + json_data['name'] + "*" 
+        "\n**ID:** *" + json_data['uid'] + "*"
        )
        
        return playerID
@@ -51,7 +32,7 @@ def player_id(name):
        return error 
 
 def player_stats(ID):
-
+  # TODO: COME BACK TO THIS ONCE https://marvelrivalsapi.com/api/v2/player/Colbertus STARTS WORKING
   try:
 
     response = requests.get('https://mrapi.org/api/player/' + ID)
@@ -131,28 +112,30 @@ def character_stats(character):
 def character_names():
 
   try: 
-    response = requests.get('https://mrapi.org/api/heroes')
+    response = requests.get('https://marvelrivalsapi.com/api/v1/heroes', headers=header)
     response.raise_for_status()
 
     json_data = json.loads(response.text)
-    names = []
+    vanguardList = []
+    duelistList = []
+    strategistList = []
 
     for index in range(len(json_data)):
       name = json_data[index]['name']
-      names.append(name)
+      role = json_data[index]['role']
+      realName = json_data[index]['real_name']
+      if role == "Vanguard":
+        vanguardList.append(name, realName)
+      elif role == "Duelist":
+        duelistList.append(name, realName)
+      elif role == "Strategist":
+        strategistList.append(name, realName)
+      else:
+        print("ERROR HAS OCCURRED, ROLE: " + role + " IS NOT VALID!")
+      
+    
 
-    character_list = (
-      "Character Names to pick from: \n"
-      "NOTE: please use one of the following heroes for the command argument\n"
-    )
-
-    count = 1
-
-    for index in names:
-      character_list += "Hero " + str(count) + ": " + str(index) + "\n"
-      count += 1 
-
-    return character_list
+    return vanguardList, duelistList, strategistList
 
   except requests.exceptions.RequestException as e:
     error: f"An error occurred: {e}"

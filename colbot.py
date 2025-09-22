@@ -117,6 +117,10 @@ async def on_message(message):
         case _ if message.content.startswith("!mrRankTotal"):
             response = mr.rank_totals()
             await message.channel.send(response) 
+        
+        case _ if message.content.startswith("!mrList"):
+            response = mr.character_names()
+            await message.channel.send(response)
 
         case _ if message.content.startswith("!weather"):
             lat, long = ow.return_coord("Huntsville", "AL")
