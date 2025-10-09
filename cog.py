@@ -33,20 +33,32 @@ class APICog(commands.Cog):
             lat, long = await self.api_service.fetch_lat_long(query)
 
             querySplit = query.split(",")
-            cityState = querySplit[0] + ", " + querySplit[1]
+            if querySplit[1] == "":
+                cityStateCountry = querySplit[0] + ", " + querySplit[2]
+            else:
+                cityStateCountry = querySplit[0] + ", " + querySplit[1] + ", " + querySplit[2]
 
-            # Create the formatted message that the bot is going to use
-            messageDesc = (
-                "**Lat:** *" + str(lat) + "*" 
-                "\n**Long**: *" + str(long) + "*"
-            )
+            if lat == None:
 
-            # Create an embedded discord object that stores the information from the query 
-            embed = discord.Embed(
-                title = f"Result for {cityState}",
-                description = messageDesc,
-                color = discord.Color.dark_purple()
-            )
+                embed = discord.Embed(
+                    title = f"No Result for *{cityStateCountry}*",
+                    color = discord.Color.dark_purple()
+                )
+
+            else:
+
+                # Create the formatted message that the bot is going to use
+                messageDesc = (
+                    "**Lat:** *" + str(lat) + "*" 
+                    "\n**Long**: *" + str(long) + "*"
+                )
+
+                # Create an embedded discord object that stores the information from the query 
+                embed = discord.Embed(
+                    title = f"Result for {cityStateCountry}",
+                    description = messageDesc,
+                    color = discord.Color.dark_purple()
+                )
 
             # Have the bot send the embedded object message to the discord chat
             await ctx.response.send_message(embed = embed)

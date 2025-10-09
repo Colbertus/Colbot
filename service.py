@@ -31,6 +31,10 @@ class APIService:
                 if response.status == 200:
 
                     data = await response.json()
+
+                    if data == []:
+                        return None, None
+
                     lat = data[0]['lat']
                     long = data[0]['lon']
 
