@@ -1,6 +1,7 @@
 # Imports 
 import os
 import aiohttp
+import json
 
 # Class used for the OpenWeatherAPI service 
 class APIService:
@@ -12,12 +13,12 @@ class APIService:
         self.API_KEY = os.getenv("OW_API_KEY")
 
     # Asyncronous function used to query weather information
-    async def fetch_data(self, query: str):
+    async def fetch_lat_long(self, query: str):
 
         # Initialize the endpoint and the parameters for the OpenWeather query 
         endpoint = self.BASE_URL
         params = {
-            "q": "Harvest,AL,USA",
+            "q": query,
             "limit": 1,
             "appid": self.API_KEY
             }
@@ -30,7 +31,10 @@ class APIService:
                 if response.status == 200:
 
                     data = await response.json()
-                    return data
+                    lat = data[0]['lat']
+                    long = data[0]['lon']
+
+                    return lat, long
                 
                 # If the response happened to be one of an error 
                 elif response.status == 404:
