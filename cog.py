@@ -3,7 +3,13 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from service import APIService
-from weathermodel import WeatherModal
+from weathermodal import WeatherModal
+from dotenv import load_dotenv
+import os
+
+load_dotenv("token.env")
+ID = int(os.getenv("TEST_SERVER_ID"))
+test_guild = discord.Object(id = ID)
 
 # Class used to store the commands for the OpenWeatherAPI
 class APICog(commands.Cog):
@@ -13,8 +19,10 @@ class APICog(commands.Cog):
         self.bot = bot
         self.api_service = APIService()
 
-    @app_commands.command(name = "geo_lookup")
-    async def geo_lookup(self, interaction: discord.Interaction):
+    # Discord Command: city_lookup
+    @app_commands.guilds(test_guild)
+    @app_commands.command(name = "city_lookup")
+    async def cityLookup(self, interaction: discord.Interaction):
        
         modal = WeatherModal(cog_instance = self)
         await interaction.response.send_modal(modal)
@@ -24,12 +32,12 @@ class APICog(commands.Cog):
         message = "Sending a test message"
         await ctx.response.send_message(message)
 
-    # This is the command for retrieving data from OpenWeather (will be changed soon)
+    # This is the command for retrieving data from OpenWeather (will get new name soon)
     async def output_lat_long(self, ctx: discord.Interaction, query: str):
 
         try:
 
-            # Fetch the data returned from the query
+            # Fetch the data returned from the query using the service class
             lat, long = await self.api_service.fetch_lat_long(query)
 
             querySplit = query.split(",")

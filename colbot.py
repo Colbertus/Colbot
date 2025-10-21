@@ -9,6 +9,7 @@ load_dotenv("token.env")
 
 # Retrieve the token from the environment
 TOKEN = os.getenv("DISCORD_TOKEN")
+ID = int(os.getenv("TEST_SERVER_ID"))
 
 # If the token is not present in the '.env' file
 if not TOKEN:
@@ -26,6 +27,8 @@ bot = commands.Bot(command_prefix = '!', intents = intents)
 # Set 'cog.py' to be the module loaded when starting the bot
 initial_extensions = ["cog"]
 
+test_guild = discord.Object(id = ID)
+
 @bot.event
 async def on_ready():
 
@@ -40,5 +43,10 @@ async def on_ready():
         except Exception as e:
             print(f"Failed to load extension {extension}. Error {e}")
 
+@bot.command()
+async def syncmds(ctx):
+    fmt = await ctx.bot.tree.sync(guild = test_guild)
+    await ctx.send(f"Synced {len(fmt)} commands to the current server")
+
 # Run the bot inside of an event loop that waits for commands
-bot.run(os.getenv("DISCORD_TOKEN"))
+bot.run(TOKEN)
