@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 # Load the environment file that contains the Colbot token
 load_dotenv("token.env")
 
-# Retrieve the token from the environment
+# Retrieve the token and the server guild ID from the env file
 TOKEN = os.getenv("DISCORD_TOKEN")
 ID = int(os.getenv("TEST_SERVER_ID"))
 
@@ -27,6 +27,7 @@ bot = commands.Bot(command_prefix = '!', intents = intents)
 # Set 'cog.py' to be the module loaded when starting the bot
 initial_extensions = ["cog"]
 
+# Setup the guild in which we are using the slash commands in (TEMP)
 test_guild = discord.Object(id = ID)
 
 @bot.event
@@ -43,8 +44,11 @@ async def on_ready():
         except Exception as e:
             print(f"Failed to load extension {extension}. Error {e}")
 
+# The following command will allow one to resync the slash commands in order to update the server for debugging purposes
 @bot.command()
 async def syncmds(ctx):
+
+    # Sync the commands and have the bot send out how many synced commands there are
     fmt = await ctx.bot.tree.sync(guild = test_guild)
     await ctx.send(f"Synced {len(fmt)} commands to the current server")
 
