@@ -20,4 +20,4 @@ jobs:
           pip install isort
       - name: Sorting dependencies with isort
         run: |
-          pylint $(git ls-files '*.py')
+          isort $(git ls-files '*.py')
