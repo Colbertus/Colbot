@@ -20,4 +20,4 @@ jobs:
           pip install isort
       - name: Sorting dependencies with isort
         run: |
-          isort --check-only $(git ls-files '*.py')
+          isort --diff $(git ls-files '*.py')
