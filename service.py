@@ -1,7 +1,8 @@
 # Imports 
 import os
+
 import aiohttp
-import json
+
 
 # Class used for the OpenWeatherAPI service 
 class APIService:

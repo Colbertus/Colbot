@@ -1,11 +1,13 @@
 # Imports
+import os
+
 import discord
-from discord.ext import commands
 from discord import app_commands
+from discord.ext import commands
+from dotenv import load_dotenv
+
 from service import APIService
 from weathermodal import WeatherModal
-from dotenv import load_dotenv
-import os
 
 # This will be temporary but serves to create the needed guild object used to sync commands faster
 load_dotenv("token.env")

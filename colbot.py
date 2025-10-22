@@ -1,7 +1,8 @@
 # Needed Imports 
+import os
+
 import discord
 from discord.ext import commands
-import os
 from dotenv import load_dotenv
 
 # Load the environment file that contains the Colbot token

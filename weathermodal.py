@@ -1,7 +1,9 @@
 # Imports 
-import discord
 import string
+
+import discord
 from discord.ui import Modal, TextInput
+
 
 # WeatherModal class that gets used for finding lat and long
 class WeatherModal(Modal, title = 'Coordinate Lookup'):
