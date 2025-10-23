@@ -1,4 +1,4 @@
-# Imports 
+# Imports
 import string
 
 import discord
@@ -6,7 +6,7 @@ from discord.ui import Modal, TextInput
 
 
 # WeatherModal class that gets used for finding lat and long
-class WeatherModal(Modal, title = 'Coordinate Lookup'):
+class WeatherModal(Modal, title="Coordinate Lookup"):
 
     # Initialize the class to contain the cog needed and the timeout for the modal object
     def __init__(self, cog_instance, *args, **kwargs):
@@ -16,26 +16,23 @@ class WeatherModal(Modal, title = 'Coordinate Lookup'):
 
         # City input for the modal object that contain the placeholder, maximum length, and whether it is actually required or not
         city = TextInput(
-            label = "City Name",
-            placeholder = "e.g. London",
-            max_length = 50,
-            required = True
+            label="City Name", placeholder="e.g. London", max_length=50, required=True
         )
 
         # State input for the modal object that contain the placeholder, maximum length, and whether it is actually required or not
         state = TextInput(
-            label = "State/Region",
-            placeholder = "e.g. AL, TN",
-            max_length = 50,
-            required = False
+            label="State/Region",
+            placeholder="e.g. AL, TN",
+            max_length=50,
+            required=False,
         )
 
-        # Country input for the modal object that contain the placeholder, maximum length, and whether it is actually required or not 
+        # Country input for the modal object that contain the placeholder, maximum length, and whether it is actually required or not
         country = TextInput(
-            label = "Country Code",
-            placeholder = "e.g. US, FR, GB",
-            max_length = 5,
-            required = True
+            label="Country Code",
+            placeholder="e.g. US, FR, GB",
+            max_length=5,
+            required=True,
         )
 
         # Make sure to add these objects to the modal UI for use
@@ -45,7 +42,7 @@ class WeatherModal(Modal, title = 'Coordinate Lookup'):
 
     # For when the user submits the modal object
     async def on_submit(self, interaction: discord.Interaction):
-        
+
         # Save the inputs to be the following
         city_input = self.children[0].value
         state_input = self.children[1].value
@@ -59,7 +56,7 @@ class WeatherModal(Modal, title = 'Coordinate Lookup'):
 
         # For each input that was entered from the modal object..
         for input in input_list:
-            
+
             # Check the input for any symbols (@#$%^)
             anySymbols = any(char in string.punctuation for char in input)
 
@@ -74,19 +71,19 @@ class WeatherModal(Modal, title = 'Coordinate Lookup'):
                 intPresent = True
             except ValueError:
                 continue
-        
+
         # If either the symbols or an integer is present, then create the proper embed object object with the error and send
         if intPresent or symbolPresent:
             embed = discord.Embed(
-               title = f"Please enter in valid input to find latitude and longitude",
-               color = discord.Color.dark_purple()
+                title=f"Please enter in valid input to find latitude and longitude",
+                color=discord.Color.dark_purple(),
             )
-            await interaction.response.send_message(embed = embed)
-        
+            await interaction.response.send_message(embed=embed)
+
         # Otherwise, piece together the API query and pass execution to the cog function to finish the API command
         else:
-            
+
             # Strip the whitespace from each input before combining it all together with commas
             query_parts = [p.strip() for p in [city_input, state_input, country_input]]
             api_query = ",".join(query_parts)
-            await self.cog.outputLatLong(query = api_query, ctx = interaction)
+            await self.cog.outputLatLong(query=api_query, ctx=interaction)
