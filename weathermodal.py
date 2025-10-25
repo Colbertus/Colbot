@@ -1,6 +1,7 @@
 """
 Module docstring placeholder
 """
+
 # Imports
 import string
 
