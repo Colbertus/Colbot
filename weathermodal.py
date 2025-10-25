@@ -52,6 +52,9 @@ class WeatherModal(Modal, title="Coordinate Lookup"):
 
     # For when the user submits the modal object
     async def on_submit(self, interaction: discord.Interaction):
+        """
+        Function docstring placeholder
+        """
 
         # Save the inputs to be the following
         city_input = self.children[0].value
