@@ -1,3 +1,6 @@
+"""
+Module Docstring Placeholder
+"""
 # Needed Imports
 import os
 
@@ -19,7 +22,8 @@ if not TOKEN:
 else:
     print("Bot token loaded successfully")
 
-# Need to set the bot's intentions to the default while setting message conent to 'True', meaning that the bot can send readable messages
+# Need to set the bot's intentions to the default while setting message conent to 'True', meaning
+# that the bot can send readable messages
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -36,6 +40,9 @@ test_guild = discord.Object(id=ID)
 
 @bot.event
 async def on_ready():
+    """
+    Function Docstring Placeholder
+    """
 
     # Print out a debug login message once the bot connects
     print(f"We have logged in as {bot.user}")
@@ -45,14 +52,17 @@ async def on_ready():
         try:
             await bot.load_extension(extension)
             print(f"Loaded extension {extension}")
-        except Exception as e:
-            print(f"Failed to load extension {extension}. Error {e}")
+        except commands.ExtensionNotFound:
+            print("Failed to load extension {extension}.")
 
 
-# The following command will allow one to resync the slash commands in order to update the server for debugging purposes
+# The following command will allow one to resync the slash commands in order to update the
+# server for debugging purposes
 @bot.command()
 async def syncmds(ctx):
-
+    """
+    Function Docstring Placeholder
+    """
     # Sync the commands and have the bot send out how many synced commands there are
     fmt = await ctx.bot.tree.sync(guild=test_guild)
     await ctx.send(f"Synced {len(fmt)} commands to the current server")
