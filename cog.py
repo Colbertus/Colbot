@@ -11,12 +11,13 @@ from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from colbot import Colbot
 from service import APIService
 from weathermodal import WeatherModal
 
 # This will be temporary but serves to create the needed guild object used to sync commands faster
 load_dotenv("token.env")
-ID = int(os.getenv("TEST_SERVER_ID"))
+ID = int(os.getenv("TEST_SERVER_ID", "0"))
 test_guild = discord.Object(id=ID)
 
 
@@ -26,7 +27,7 @@ class APICog(commands.Cog):
     Class docstring placeholder
     """
 
-    def __init__(self, bot):
+    def __init__(self, bot: Colbot) -> None:
 
         # Initialize both the bot and the API Service
         self.bot = bot
@@ -35,7 +36,7 @@ class APICog(commands.Cog):
     # Discord Command: city_lookup
     @app_commands.guilds(test_guild)
     @app_commands.command(name="city_lookup")
-    async def city_lookup(self, interaction: discord.Interaction):
+    async def city_lookup(self, interaction: discord.Interaction) -> None:
         """
         Function docstring placeholder
         """
@@ -47,7 +48,9 @@ class APICog(commands.Cog):
     # This is the command for retrieving data from OpenWeather (will get new name soon)
     # This gets used with the city_lookup function to return the lat and long of the location
     # that gets entered
-    async def output_lat_long(self, interation: discord.Interaction, query: str):
+    async def output_lat_long(
+        self, interaction: discord.Interaction, query: str
+    ) -> None:
         """
         Function docstring placeholder
         """
@@ -92,17 +95,17 @@ class APICog(commands.Cog):
                     color=discord.Color.dark_purple(),
                 )
             # Have the bot send the embedded object message to the discord chat
-            await interation.response.send_message(embed=embed)
+            await interaction.response.send_message(embed=embed)
         except aiohttp.ClientConnectorError:
 
             # If an error occurred
-            await interation.response.send_message("A connection error has occurred")
+            await interaction.response.send_message("A connection error has occurred")
 
 
 # Asynchoronous function used to add the cog to the bot
 
 
-async def setup(bot):
+async def setup(bot: Colbot) -> None:
     """
     Function docstring placeholder
     """

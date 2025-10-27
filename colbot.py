@@ -9,12 +9,19 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+
+class Colbot(commands.Bot):
+    """
+    Class docstring placeholder
+    """
+
+
 # Load the environment file that contains the Colbot token
 load_dotenv("token.env")
 
 # Retrieve the token and the server guild ID from the env file
-TOKEN = os.getenv("DISCORD_TOKEN")
-ID = int(os.getenv("TEST_SERVER_ID"))
+TOKEN: str = os.getenv("DISCORD_TOKEN", "0")
+ID = int(os.getenv("TEST_SERVER_ID", "0"))
 
 # If the token is not present in the '.env' file
 if not TOKEN:
@@ -40,7 +47,7 @@ test_guild = discord.Object(id=ID)
 
 
 @bot.event
-async def on_ready():
+async def on_ready() -> None:
     """
     Function Docstring Placeholder
     """
@@ -55,12 +62,13 @@ async def on_ready():
             print(f"Loaded extension {extension}")
         except commands.ExtensionNotFound:
             print("Failed to load extension {extension}.")
+    return None
 
 
 # The following command will allow one to resync the slash commands in order to update the
 # server for debugging purposes
 @bot.command()
-async def syncmds(ctx):
+async def syncmds(ctx: commands.Context[Colbot]) -> None:
     """
     Function Docstring Placeholder
     """
