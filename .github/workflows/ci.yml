@@ -21,13 +21,13 @@ jobs:
           pipenv sync --dev
       - name: Sorting dependencies with isort
         run: |
-          isort --check-only --diff $(git ls-files '*.py')
+          pipenv run isort --check-only --diff $(git ls-files '*.py')
       - name: Checking code style with black
         run: |
-          black --check --diff $(git ls-files '*.py')
+          pipenv run black --check --diff $(git ls-files '*.py')
       - name: Checking code style with pylint
         run: |
-          pylint --disable=R0903,W0221,R0914,R0401 $(git ls-files '*.py')
+          pipenv run pylint --disable=R0903,W0221,R0914,R0401 $(git ls-files '*.py')
       - name: Static Analysis with mypy
         run: |
-          mypy --strict $(git ls-files '*.py')
+          pipenv run mypy --strict $(git ls-files '*.py')
