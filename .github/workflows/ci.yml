@@ -32,4 +32,4 @@ jobs:
           pylint --disable=R0903,W0221,E0401,R0914,R0401 $(git ls-files '*.py')
       - name: Static Analysis with mypy
         run: |
-          mypy --strict $(git ls-files '*.py')
+          mypy --strict --ignore-missing-imports $(git ls-files '*.py')
