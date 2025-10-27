@@ -47,7 +47,7 @@ test_guild = discord.Object(id=ID)
 
 
 @bot.event
-async def on_ready() -> None:
+async def on_ready():
     """
     Function Docstring Placeholder
     """
