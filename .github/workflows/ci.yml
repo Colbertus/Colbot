@@ -31,3 +31,6 @@ jobs:
       - name: Static Analysis with mypy
         run: |
           pipenv run mypy --strict $(git ls-files '*.py')
+      - name: Checking code quality with flake8
+        run: |
+          pipenv run flake8 --max-line-length=100 $(git ls-files '*.py')

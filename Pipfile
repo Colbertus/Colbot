@@ -13,6 +13,7 @@ isort = "*"
 black = "*"
 pylint = "*"
 mypy = "*"
+flake8 = "*"
 
 [dev-packages]
 
