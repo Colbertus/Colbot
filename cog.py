@@ -42,18 +42,16 @@ class APICog(commands.Cog):
         """
 
         # Setup the modal weather object that'll be used for the query before sending it
-        modal = WeatherModal(cog_instance=self)
+        modal = WeatherModal()
         await interaction.response.send_modal(modal)
+        await modal.wait()
 
-    # This is the command for retrieving data from OpenWeather (will get new name soon)
-    # This gets used with the city_lookup function to return the lat and long of the location
-    # that gets entered
-    async def output_lat_long(
-        self, interaction: discord.Interaction, query: str
-    ) -> None:
-        """
-        Function docstring placeholder
-        """
+        query = modal.api_query
+        final_interaction = modal.interaction
+
+        if not query or not final_interaction:
+            return
+
         try:
 
             # Fetch the data returned from the query using the service class
@@ -73,7 +71,7 @@ class APICog(commands.Cog):
 
             # If there was no result for the city/state/country entered, initialize the
             # following embedded message
-            if lat is None:
+            if lat == 0.0:
                 embed = discord.Embed(
                     title=f"No Result for *{city_state_country}*",
                     color=discord.Color.dark_purple(),
@@ -95,11 +93,11 @@ class APICog(commands.Cog):
                     color=discord.Color.dark_purple(),
                 )
             # Have the bot send the embedded object message to the discord chat
-            await interaction.response.send_message(embed=embed)
+            await final_interaction.followup.send(embed=embed, ephemeral=True)
         except aiohttp.ClientConnectorError:
 
             # If an error occurred
-            await interaction.response.send_message("A connection error has occurred")
+            await final_interaction.followup.send("A connection error has occurred")
 
 
 # Asynchoronous function used to add the cog to the bot

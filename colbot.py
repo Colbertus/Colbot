@@ -15,6 +15,9 @@ class Colbot(commands.Bot):
     Class docstring placeholder
     """
 
+    def __init__(self, bot_intents: discord.Intents) -> None:
+        super().__init__(command_prefix="!", intents=bot_intents)
+
 
 # Load the environment file that contains the Colbot token
 load_dotenv("token.env")
@@ -37,7 +40,7 @@ intents.message_content = True
 
 
 # Initialize the command prefix to '!' while setting the intents
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = Colbot(intents)
 
 # Set 'cog.py' to be the module loaded when starting the bot
 initial_extensions = ["cog"]
@@ -77,5 +80,6 @@ async def syncmds(ctx: commands.Context[Colbot]) -> None:
     await ctx.send(f"Synced {len(fmt)} commands to the current server")
 
 
-# Run the bot inside of an event loop that waits for commands
-bot.run(TOKEN)
+if __name__ == "__main__":
+    # Run the bot inside of an event loop that waits for commands
+    bot.run(TOKEN)

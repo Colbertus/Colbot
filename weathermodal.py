@@ -8,8 +8,6 @@ import string
 import discord
 from discord.ui import Modal, TextInput
 
-from cog import APICog
-
 
 # WeatherModal class that gets used for finding lat and long
 class WeatherModal(Modal, title="Coordinate Lookup"):
@@ -17,10 +15,12 @@ class WeatherModal(Modal, title="Coordinate Lookup"):
     Class docstring placeholder
     """
 
+    api_query: str = ""
+    interaction = None
+
     # Initialize the class to contain the cog needed and the timeout for the modal object
-    def __init__(self, cog_instance: APICog) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.cog = cog_instance
         self.timeout = 120.0
 
         # City input for the modal object that contain the placeholder, maximum length,
@@ -114,5 +114,7 @@ class WeatherModal(Modal, title="Coordinate Lookup"):
 
             # Strip the whitespace from each input before combining it all together with commas
             query_parts = [p.strip() for p in [city_input, state_input, country_input]]
-            api_query = ",".join(query_parts)
-            await self.cog.output_lat_long(query=api_query, interaction=interaction)
+            self.api_query = ",".join(query_parts)
+            await interaction.response.defer()
+            self.interaction = interaction
+            self.stop()
