@@ -38,21 +38,46 @@
 documentation for details.</p>
 <div class="toctree-wrapper compound">
 </div>
-<p id="module-colbot">Module Docstring Placeholder</p>
+<p id="module-colbot">Module meant to initialize ‘Colbot’ along with loading its’ extensions.</p>
+<p>This module contains the primary logic for the Colbot discord client,
+including custom command handling and automated event listeners.
+It utilizes the discord.py library as its base.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.TOKEN">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">TOKEN</span></span><a class="headerlink" href="#colbot.TOKEN" title="Link to this definition">¶</a></dt>
+<dd><p>String token identifier needed to initialize the bot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.ID">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">ID</span></span><a class="headerlink" href="#colbot.ID" title="Link to this definition">¶</a></dt>
+<dd><p>Server ID needed to refresh ‘/’ commands on Discord.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="colbot.Colbot">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">Colbot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bot_intents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Intents</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/colbot.html#Colbot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#colbot.Colbot" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Bot</span></code></p>
-<p>Class docstring placeholder</p>
+<p>Class derived from ‘commands.Bot’ used to make references in other components of Colbot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>PLACEHOLDER</strong></p>
+<dd class="field-odd"><p><strong>None</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>PLACEHOLDER</p>
+<dd class="field-even"><p>None</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>PLACEHOLDER</strong> – </p>
+<dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -60,16 +85,16 @@ documentation for details.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="colbot.on_ready">
 <span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">on_ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/colbot.html#on_ready"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#colbot.on_ready" title="Link to this definition">¶</a></dt>
-<dd><p>Function docstring placeholder</p>
+<dd><p>Function meant to prepare the bot to start recieving commands.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>PLACEHOLDER</strong></p>
+<dd class="field-odd"><p><strong>None</strong></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>PLACEHOLDER</p>
+<dd class="field-even"><p>None</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>PLACEHOLDER</strong> – </p>
+<dd class="field-odd"><p><strong>commands.ExtensionNotFound</strong> – If a certain python script could not be loaded in as an extension.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -119,6 +144,34 @@ documentation for details.</p>
 </dd></dl>
 
 <p id="module-weathermodal">Module docstring placeholder</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">weathermodal.</span></span><span class="sig-name descname"><span class="pre">WeatherModal</span></span><a class="reference internal" href="_modules/weathermodal.html#WeatherModal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#weathermodal.WeatherModal" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Modal</span></code></p>
+<p>Class docstring placeholder</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.api_query">
+<span class="sig-name descname"><span class="pre">api_query</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#weathermodal.WeatherModal.api_query" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.interaction">
+<span class="sig-name descname"><span class="pre">interaction</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#weathermodal.WeatherModal.interaction" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.on_submit">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">on_submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Interaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/weathermodal.html#WeatherModal.on_submit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#weathermodal.WeatherModal.on_submit" title="Link to this definition">¶</a></dt>
+<dd><p>Function docstring placeholder</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.title">
+<span class="sig-name descname"><span class="pre">title</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Coordinate</span> <span class="pre">Lookup'</span></span><a class="headerlink" href="#weathermodal.WeatherModal.title" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 

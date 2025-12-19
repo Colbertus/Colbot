@@ -1,5 +1,13 @@
 """
-Module Docstring Placeholder
+Module meant to initialize 'Colbot' along with loading its' extensions.
+
+This module contains the primary logic for the Colbot discord client,
+including custom command handling and automated event listeners.
+It utilizes the discord.py library as its base.
+
+Attributes:
+    TOKEN (str): String token identifier needed to initialize the bot.
+    ID (int): Server ID needed to refresh '/' commands on Discord.
 """
 
 # Needed Imports
@@ -8,20 +16,21 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from fastapi import HTTPException
 
 
 class Colbot(commands.Bot):
     """
-    Class docstring placeholder
+    Class derived from 'commands.Bot' used to make references in other components of Colbot.
 
     Args:
-        PLACEHOLDER
+        None
 
     Returns:
-        PLACEHOLDER
+        None
 
     Raises:
-        PLACEHOLDER
+        None
     """
 
     def __init__(self, bot_intents: discord.Intents) -> None:
@@ -61,16 +70,16 @@ test_guild = discord.Object(id=ID)
 @bot.event
 async def on_ready() -> None:
     """
-    Function docstring placeholder
+    Function meant to prepare the bot to start recieving commands.
 
-    Args:
-        PLACEHOLDER
+    Parameters:
+        None
 
     Returns:
-        PLACEHOLDER
+        None
 
     Raises:
-        PLACEHOLDER
+        commands.ExtensionNotFound: If a certain python script could not be loaded in as an extension.
     """
 
     # Print out a debug login message once the bot connects
@@ -91,20 +100,27 @@ async def on_ready() -> None:
 @bot.command()
 async def syncmds(ctx: commands.Context[Colbot]) -> None:
     """
-    Class docstring placeholder
+    Command function for syncing the '/' commands with Discord.
 
     Args:
-        PLACEHOLDER
+        ctx: Context object that the bot uses.
 
     Returns:
-        PLACEHOLDER
+        None
 
     Raises:
-        PLACEHOLDER
+        HTTPException: If syncing the commands failed.
+        discord.HTTPException: If the synced message failed to send.
     """
-    # Sync the commands and have the bot send out how many synced commands there are
-    fmt = await ctx.bot.tree.sync(guild=test_guild)
-    await ctx.send(f"Synced {len(fmt)} commands to the current server")
+
+    try:
+        # Sync the commands and have the bot send out how many synced commands there are
+        fmt = await ctx.bot.tree.sync(guild=test_guild)
+        await ctx.send(f"Synced {len(fmt)} commands to the current server")
+    except HTTPException:
+        print("Failed to comamnds from {test_guild}.")
+    except discord.HTTPException:
+        print("Failed to send message to {ctx}.")
 
 
 if __name__ == "__main__":

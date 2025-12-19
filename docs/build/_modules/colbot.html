@@ -32,7 +32,15 @@
             
   <h1>Source code for colbot</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Module Docstring Placeholder</span>
+<span class="sd">Module meant to initialize &#39;Colbot&#39; along with loading its&#39; extensions.</span>
+
+<span class="sd">This module contains the primary logic for the Colbot discord client,</span>
+<span class="sd">including custom command handling and automated event listeners.</span>
+<span class="sd">It utilizes the discord.py library as its base.</span>
+
+<span class="sd">Attributes:</span>
+<span class="sd">    TOKEN (str): String token identifier needed to initialize the bot.</span>
+<span class="sd">    ID (int): Server ID needed to refresh &#39;/&#39; commands on Discord.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Needed Imports</span>
@@ -41,22 +49,23 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">discord</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">discord.ext</span><span class="w"> </span><span class="kn">import</span> <span class="n">commands</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPException</span>
 
 
 <div class="viewcode-block" id="Colbot">
 <a class="viewcode-back" href="../index.html#colbot.Colbot">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Colbot</span><span class="p">(</span><span class="n">commands</span><span class="o">.</span><span class="n">Bot</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class docstring placeholder</span>
+<span class="sd">    Class derived from &#39;commands.Bot&#39; used to make references in other components of Colbot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        None</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        None</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot_intents</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">Intents</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -99,16 +108,16 @@
 <span class="nd">@bot</span><span class="o">.</span><span class="n">event</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_ready</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function docstring placeholder</span>
+<span class="sd">    Function meant to prepare the bot to start recieving commands.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        None</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        None</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        commands.ExtensionNotFound: If a certain python script could not be loaded in as an extension.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Print out a debug login message once the bot connects</span>
@@ -130,20 +139,27 @@
 <span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">syncmds</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">commands</span><span class="o">.</span><span class="n">Context</span><span class="p">[</span><span class="n">Colbot</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class docstring placeholder</span>
+<span class="sd">    Command function for syncing the &#39;/&#39; commands with Discord.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        ctx: Context object that the bot uses.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        None</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        PLACEHOLDER</span>
+<span class="sd">        HTTPException: If syncing the commands failed.</span>
+<span class="sd">        discord.HTTPException: If the synced message failed to send.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Sync the commands and have the bot send out how many synced commands there are</span>
-    <span class="n">fmt</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">guild</span><span class="o">=</span><span class="n">test_guild</span><span class="p">)</span>
-    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Synced </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span><span class="si">}</span><span class="s2"> commands to the current server&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Sync the commands and have the bot send out how many synced commands there are</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">guild</span><span class="o">=</span><span class="n">test_guild</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Synced </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span><span class="si">}</span><span class="s2"> commands to the current server&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to comamnds from </span><span class="si">{test_guild}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">HTTPException</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to send message to </span><span class="si">{ctx}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>

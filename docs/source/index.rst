@@ -31,5 +31,7 @@ documentation for details.
    :show-inheritance:
 
 .. automodule:: weathermodal
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
