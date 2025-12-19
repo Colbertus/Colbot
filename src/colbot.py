@@ -13,6 +13,15 @@ from dotenv import load_dotenv
 class Colbot(commands.Bot):
     """
     Class docstring placeholder
+
+    Args:
+        PLACEHOLDER
+
+    Returns:
+        PLACEHOLDER
+
+    Raises:
+        PLACEHOLDER
     """
 
     def __init__(self, bot_intents: discord.Intents) -> None:
@@ -52,7 +61,16 @@ test_guild = discord.Object(id=ID)
 @bot.event
 async def on_ready() -> None:
     """
-    Function Docstring Placeholder
+    Function docstring placeholder
+
+    Args:
+        PLACEHOLDER
+
+    Returns:
+        PLACEHOLDER
+
+    Raises:
+        PLACEHOLDER
     """
 
     # Print out a debug login message once the bot connects
@@ -73,7 +91,16 @@ async def on_ready() -> None:
 @bot.command()
 async def syncmds(ctx: commands.Context[Colbot]) -> None:
     """
-    Function Docstring Placeholder
+    Class docstring placeholder
+
+    Args:
+        PLACEHOLDER
+
+    Returns:
+        PLACEHOLDER
+
+    Raises:
+        PLACEHOLDER
     """
     # Sync the commands and have the bot send out how many synced commands there are
     fmt = await ctx.bot.tree.sync(guild=test_guild)

@@ -32,7 +32,16 @@ class APIService:
     # Asyncronous function used to query weather information
     async def fetch_lat_long(self, query: str) -> tuple[float, float]:
         """
-        Method docstring placeholder
+        Function docstring placeholder
+
+        Args:
+            query (string): The formatted query string that gets used to find the relevant information from the OpenWeather API.
+
+        Returns:
+            PLACEHOLDER
+
+        Raises:
+            PLACEHOLDER
         """
 
         # Initialize the endpoint and the parameters for the OpenWeather query

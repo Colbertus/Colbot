@@ -14,6 +14,7 @@ black = "*"
 pylint = "*"
 mypy = "*"
 flake8 = "*"
+sphinx = "*"
 
 [dev-packages]
 
