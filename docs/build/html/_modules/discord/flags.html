@@ -1,0 +1,2608 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>discord.flags &mdash; Colbot N/A documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=0200cdce"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Colbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Colbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">discord.flags</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for discord.flags</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The MIT License (MIT)</span>
+
+<span class="sd">Copyright (c) 2015-present Rapptz</span>
+
+<span class="sd">Permission is hereby granted, free of charge, to any person obtaining a</span>
+<span class="sd">copy of this software and associated documentation files (the &quot;Software&quot;),</span>
+<span class="sd">to deal in the Software without restriction, including without limitation</span>
+<span class="sd">the rights to use, copy, modify, merge, publish, distribute, sublicense,</span>
+<span class="sd">and/or sell copies of the Software, and to permit persons to whom the</span>
+<span class="sd">Software is furnished to do so, subject to the following conditions:</span>
+
+<span class="sd">The above copyright notice and this permission notice shall be included in</span>
+<span class="sd">all copies or substantial portions of the Software.</span>
+
+<span class="sd">THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS</span>
+<span class="sd">OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="sd">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="sd">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="sd">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING</span>
+<span class="sd">FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER</span>
+<span class="sd">DEALINGS IN THE SOFTWARE.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">or_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">ClassVar</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Iterator</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">overload</span><span class="p">,</span>
+    <span class="n">TypedDict</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserFlags</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Self</span><span class="p">,</span> <span class="n">Unpack</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_IntentsFlagsKwargs</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">guilds</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">members</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">moderation</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">bans</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">emojis</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">emojis_and_stickers</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">expressions</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">integrations</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">webhooks</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">invites</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">voice_states</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">presences</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">messages</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">guild_messages</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">dm_messages</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">reactions</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">guild_reactions</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">dm_reactions</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">typing</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">guild_typing</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">dm_typing</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">message_content</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">guild_scheduled_events</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">auto_moderation</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">auto_moderation_configuration</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">auto_moderation_execution</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">polls</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">guild_polls</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">dm_polls</span><span class="p">:</span> <span class="nb">bool</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_MemberCacheFlagsKwargs</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">voice</span><span class="p">:</span> <span class="nb">bool</span>
+        <span class="n">joined</span><span class="p">:</span> <span class="nb">bool</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;SystemChannelFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MessageFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PublicUserFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Intents&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MemberCacheFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ApplicationFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ChannelFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;AutoModPresets&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MemberFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;AppCommandContext&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;AttachmentFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;RoleFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;AppInstallationType&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SKUFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;EmbedFlags&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;InviteFlags&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">BF</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;BF&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;BaseFlags&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">flag_value</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">owner</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BF</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">BF</span><span class="p">,</span> <span class="n">owner</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BF</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BF</span><span class="p">],</span> <span class="n">owner</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BF</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="n">_has_flag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">BaseFlags</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_set_flag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;flag_value flag=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="si">!r}</span><span class="s1">&gt;&#39;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">alias_flag_value</span><span class="p">(</span><span class="n">flag_value</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fill_with_flags</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">inverted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="n">BF</span><span class="p">]],</span> <span class="n">Type</span><span class="p">[</span><span class="n">BF</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BF</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BF</span><span class="p">]:</span>
+        <span class="c1"># fmt: off</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">VALID_FLAGS</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">flag</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">flag_value</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="c1"># fmt: on</span>
+
+        <span class="k">if</span> <span class="n">inverted</span><span class="p">:</span>
+            <span class="n">max_bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">max_bits</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+
+
+<span class="c1"># n.b. flags must inherit from this and use the decorator above</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseFlags</span><span class="p">:</span>
+    <span class="n">VALID_FLAGS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span>
+    <span class="n">DEFAULT_VALUE</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+
+    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s1"> is not a valid flag name.&#39;</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__xor__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">^</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__ior__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|=</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iand__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;=</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__ixor__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">^=</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">max_bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
+        <span class="n">max_value</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">max_bits</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">^</span> <span class="n">max_value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> value=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]:</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">alias_flag_value</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">flag_value</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_flag</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">flag</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_has_flag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;</span> <span class="n">o</span><span class="p">)</span> <span class="o">==</span> <span class="n">o</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_flag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toggle</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">toggle</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|=</span> <span class="n">o</span>
+        <span class="k">elif</span> <span class="n">toggle</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">o</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Value to set for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> must be a bool.&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">(</span><span class="n">inverted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SystemChannelFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up a Discord system channel flag value.</span>
+
+<span class="sd">    Similar to :class:`Permissions`\, the properties provided are two way.</span>
+<span class="sd">    You can set and retrieve individual bits using the properties as if they</span>
+<span class="sd">    were regular bools. This allows you to edit the system flags easily.</span>
+
+<span class="sd">    To construct an object you can pass keyword arguments denoting the flags</span>
+<span class="sd">    to enable or disable.</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two flags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a SystemChannelFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a SystemChannelFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a SystemChannelFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a SystemChannelFlags instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">               Return the flag&#39;s hash.</span>
+
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">               Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">               to be, for example, constructed as a dict or a list of pairs.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. This value is a bit array field of a 53-bit integer</span>
+<span class="sd">        representing the currently available flags. You should query</span>
+<span class="sd">        flags via the properties rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="c1"># For some reason the flags for system channels are &quot;inverted&quot;</span>
+    <span class="c1"># ergo, if they&#39;re set then it means &quot;suppress&quot; (off in the GUI toggle)</span>
+    <span class="c1"># Since this is counter-intuitive from an API perspective and annoying</span>
+    <span class="c1"># these will be inverted automatically</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_has_flag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;</span> <span class="n">o</span><span class="p">)</span> <span class="o">!=</span> <span class="n">o</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_flag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toggle</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">toggle</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">o</span>
+        <span class="k">elif</span> <span class="n">toggle</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">|=</span> <span class="n">o</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Value to set for SystemChannelFlags must be a bool.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">join_notifications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the system channel is used for member join notifications.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">premium_subscriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the system channel is used for &quot;Nitro boosting&quot; notifications.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild_reminder_notifications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the system channel is used for server setup helpful tips notifications.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">4</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">join_notification_replies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if sticker reply button (&quot;Wave to say hi!&quot;) is</span>
+<span class="sd">        shown for member join notifications.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">8</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">role_subscription_purchase_notifications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if role subscription purchase and renewal</span>
+<span class="sd">        notifications are enabled.</span>
+
+<span class="sd">        .. versionadded:: 2.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">16</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">role_subscription_purchase_notification_replies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the role subscription notifications</span>
+<span class="sd">        have a sticker reply button.</span>
+
+<span class="sd">        .. versionadded:: 2.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">32</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MessageFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up a Discord Message flag value.</span>
+
+<span class="sd">    See :class:`SystemChannelFlags`.</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two flags are equal.</span>
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a MessageFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a MessageFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a MessageFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a MessageFlags instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">               Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">               Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">               to be, for example, constructed as a dict or a list of pairs.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">    .. versionadded:: 1.3</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. This value is a bit array field of a 53-bit integer</span>
+<span class="sd">        representing the currently available flags. You should query</span>
+<span class="sd">        flags via the properties rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">crossposted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message is the original crossposted message.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_crossposted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message was crossposted from another channel.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">suppress_embeds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message&#39;s embeds have been suppressed.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">4</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">source_message_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the source message for this crosspost has been deleted.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">8</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">urgent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the source message is an urgent message.</span>
+
+<span class="sd">        An urgent message is one sent by Discord Trust and Safety.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">16</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">has_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the source message is associated with a thread.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">32</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ephemeral</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the source message is ephemeral.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">64</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loading</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message is an interaction response and the bot</span>
+<span class="sd">        is &quot;thinking&quot;.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">128</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">failed_to_mention_some_roles_in_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message failed to mention some roles in a thread</span>
+<span class="sd">        and add their members to the thread.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">256</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">suppress_notifications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message will not trigger push and desktop notifications.</span>
+
+<span class="sd">        .. versionadded:: 2.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">4096</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">silent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Alias for :attr:`suppress_notifications`.</span>
+
+<span class="sd">        .. versionadded:: 2.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">4096</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message is a voice message.</span>
+
+<span class="sd">        .. versionadded:: 2.3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">8192</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forwarded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message is a forwarded message.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">16384</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">components_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the message has Discord&#39;s v2 components.</span>
+
+<span class="sd">        Does not allow sending any ``content``, ``embed``, ``embeds``, ``stickers``, or ``poll``.</span>
+
+<span class="sd">        .. versionadded:: 2.6</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">32768</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PublicUserFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord User Public flags.</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two PublicUserFlags are equal.</span>
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two PublicUserFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a PublicUserFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a PublicUserFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a PublicUserFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a PublicUserFlags instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">    .. versionadded:: 1.4</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. This value is a bit array field of a 53-bit integer</span>
+<span class="sd">        representing the currently available flags. You should query</span>
+<span class="sd">        flags via the properties rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">staff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a Discord Employee.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">staff</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">partner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a Discord Partner.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">partner</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hypesquad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a HypeSquad Events member.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">hypesquad</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bug_hunter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a Bug Hunter&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">bug_hunter</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hypesquad_bravery</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a HypeSquad Bravery member.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">hypesquad_bravery</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hypesquad_brilliance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a HypeSquad Brilliance member.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">hypesquad_brilliance</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hypesquad_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a HypeSquad Balance member.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">hypesquad_balance</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">early_supporter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is an Early Supporter.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">early_supporter</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">team_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a Team User.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">team_user</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">system</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a system user (i.e. represents Discord officially).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bug_hunter_level_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a Bug Hunter Level 2&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">bug_hunter_level_2</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verified_bot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a Verified Bot.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">verified_bot</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verified_bot_developer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is an Early Verified Bot Developer.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">verified_bot_developer</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">early_verified_bot_developer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: An alias for :attr:`verified_bot_developer`.</span>
+
+<span class="sd">        .. versionadded:: 1.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">verified_bot_developer</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">discord_certified_moderator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a Discord Certified Moderator.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">discord_certified_moderator</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bot_http_interactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is a bot that only uses HTTP interactions</span>
+<span class="sd">        and is shown in the online member list.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">bot_http_interactions</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spammer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is flagged as a spammer by Discord.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">spammer</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">active_developer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the user is an active developer.</span>
+
+<span class="sd">        .. versionadded:: 2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UserFlags</span><span class="o">.</span><span class="n">active_developer</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">UserFlags</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List[:class:`UserFlags`]: Returns all public flags the user has.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">public_flag</span> <span class="k">for</span> <span class="n">public_flag</span> <span class="ow">in</span> <span class="n">UserFlags</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_flag</span><span class="p">(</span><span class="n">public_flag</span><span class="o">.</span><span class="n">value</span><span class="p">)]</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Intents</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up a Discord gateway intent flag.</span>
+
+<span class="sd">    Similar to :class:`Permissions`\, the properties provided are two way.</span>
+<span class="sd">    You can set and retrieve individual bits using the properties as if they</span>
+<span class="sd">    were regular bools.</span>
+
+<span class="sd">    To construct an object you can pass keyword arguments denoting the flags</span>
+<span class="sd">    to enable or disable.</span>
+
+<span class="sd">    This is used to disable certain gateway features that are unnecessary to</span>
+<span class="sd">    run your bot. To make use of this, it is passed to the ``intents`` keyword</span>
+<span class="sd">    argument of :class:`Client`.</span>
+
+<span class="sd">    .. versionadded:: 1.5</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two flags are equal.</span>
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns an Intents instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns an Intents instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns an Intents instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns an Intents instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">               Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">               Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">               to be, for example, constructed as a dict or a list of pairs.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any intent is enabled.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">_IntentsFlagsKwargs</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">kwvalue</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s1"> is not a valid flag name.&#39;</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">kwvalue</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Intents</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Intents</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates a :class:`Intents` with everything enabled.&quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">|</span> <span class="n">b</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">none</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Intents</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Intents</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates a :class:`Intents` with everything disabled.&quot;&quot;&quot;</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Intents</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Intents</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates a :class:`Intents` with everything enabled</span>
+<span class="sd">        except :attr:`presences`, :attr:`members`, and :attr:`message_content`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">presences</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">members</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message_content</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guilds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_guild_join`</span>
+<span class="sd">        - :func:`on_guild_remove`</span>
+<span class="sd">        - :func:`on_guild_available`</span>
+<span class="sd">        - :func:`on_guild_unavailable`</span>
+<span class="sd">        - :func:`on_guild_channel_update`</span>
+<span class="sd">        - :func:`on_guild_channel_create`</span>
+<span class="sd">        - :func:`on_guild_channel_delete`</span>
+<span class="sd">        - :func:`on_guild_channel_pins_update`</span>
+<span class="sd">        - :func:`on_thread_create`</span>
+<span class="sd">        - :func:`on_thread_join`</span>
+<span class="sd">        - :func:`on_thread_update`</span>
+<span class="sd">        - :func:`on_thread_delete`</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :attr:`Client.guilds`</span>
+<span class="sd">        - :class:`Guild` and all its attributes.</span>
+<span class="sd">        - :meth:`Client.get_channel`</span>
+<span class="sd">        - :meth:`Client.get_all_channels`</span>
+
+<span class="sd">        It is highly advisable to leave this intent enabled for your bot to function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">members</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild member related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_member_join`</span>
+<span class="sd">        - :func:`on_member_remove`</span>
+<span class="sd">        - :func:`on_member_update`</span>
+<span class="sd">        - :func:`on_user_update`</span>
+<span class="sd">        - :func:`on_thread_member_join`</span>
+<span class="sd">        - :func:`on_thread_member_remove`</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :meth:`Client.get_all_members`</span>
+<span class="sd">        - :meth:`Client.get_user`</span>
+<span class="sd">        - :meth:`Guild.chunk`</span>
+<span class="sd">        - :meth:`Guild.fetch_members`</span>
+<span class="sd">        - :meth:`Guild.get_member`</span>
+<span class="sd">        - :attr:`Guild.members`</span>
+<span class="sd">        - :attr:`Member.roles`</span>
+<span class="sd">        - :attr:`Member.nick`</span>
+<span class="sd">        - :attr:`Member.premium_since`</span>
+<span class="sd">        - :attr:`User.name`</span>
+<span class="sd">        - :attr:`User.avatar`</span>
+<span class="sd">        - :attr:`User.discriminator`</span>
+<span class="sd">        - :attr:`User.global_name`</span>
+
+<span class="sd">        For more information go to the :ref:`member intent documentation &lt;need_members_intent&gt;`.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            Currently, this requires opting in explicitly via the developer portal as well.</span>
+<span class="sd">            Bots in over 100 guilds will need to apply to Discord for verification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">moderation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild moderation related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_member_ban`</span>
+<span class="sd">        - :func:`on_member_unban`</span>
+<span class="sd">        - :func:`on_audit_log_entry_create`</span>
+
+<span class="sd">        This does not correspond to any attributes or classes in the library in terms of cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: An alias of :attr:`moderation`.</span>
+
+<span class="sd">        .. versionchanged:: 2.2</span>
+<span class="sd">            Changed to an alias.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">emojis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Alias of :attr:`.expressions`.</span>
+
+<span class="sd">        .. versionchanged:: 2.0</span>
+<span class="sd">            Changed to an alias.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">emojis_and_stickers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Alias of :attr:`.expressions`.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+
+<span class="sd">        .. versionchanged:: 2.5</span>
+<span class="sd">            Changed to an alias.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expressions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild emoji, sticker, and soundboard sound related events are enabled.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_guild_emojis_update`</span>
+<span class="sd">        - :func:`on_guild_stickers_update`</span>
+<span class="sd">        - :func:`on_soundboard_sound_create`</span>
+<span class="sd">        - :func:`on_soundboard_sound_update`</span>
+<span class="sd">        - :func:`on_soundboard_sound_delete`</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :class:`Emoji`</span>
+<span class="sd">        - :class:`GuildSticker`</span>
+<span class="sd">        - :class:`SoundboardSound`</span>
+<span class="sd">        - :meth:`Client.get_emoji`</span>
+<span class="sd">        - :meth:`Client.get_sticker`</span>
+<span class="sd">        - :meth:`Client.get_soundboard_sound`</span>
+<span class="sd">        - :meth:`Client.emojis`</span>
+<span class="sd">        - :meth:`Client.stickers`</span>
+<span class="sd">        - :meth:`Client.soundboard_sounds`</span>
+<span class="sd">        - :attr:`Guild.emojis`</span>
+<span class="sd">        - :attr:`Guild.stickers`</span>
+<span class="sd">        - :attr:`Guild.soundboard_sounds`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">integrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild integration related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_guild_integrations_update`</span>
+<span class="sd">        - :func:`on_integration_create`</span>
+<span class="sd">        - :func:`on_integration_update`</span>
+<span class="sd">        - :func:`on_raw_integration_delete`</span>
+
+<span class="sd">        This does not correspond to any attributes or classes in the library in terms of cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">webhooks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild webhook related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_webhooks_update`</span>
+
+<span class="sd">        This does not correspond to any attributes or classes in the library in terms of cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">invites</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild invite related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_invite_create`</span>
+<span class="sd">        - :func:`on_invite_delete`</span>
+
+<span class="sd">        This does not correspond to any attributes or classes in the library in terms of cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voice_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild voice state related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_voice_state_update`</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :attr:`VoiceChannel.members`</span>
+<span class="sd">        - :attr:`VoiceChannel.voice_states`</span>
+<span class="sd">        - :attr:`Member.voice`</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            This intent is required to connect to voice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">presences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild presence related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_presence_update`</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :attr:`Member.activities`</span>
+<span class="sd">        - :attr:`Member.status`</span>
+<span class="sd">        - :attr:`Member.raw_status`</span>
+
+<span class="sd">        For more information go to the :ref:`presence intent documentation &lt;need_presence_intent&gt;`.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            Currently, this requires opting in explicitly via the developer portal as well.</span>
+<span class="sd">            Bots in over 100 guilds will need to apply to Discord for verification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild and direct message related events are enabled.</span>
+
+<span class="sd">        This is a shortcut to set or get both :attr:`guild_messages` and :attr:`dm_messages`.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_message` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_message_edit` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_message_delete` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_raw_message_delete` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_raw_message_edit` (both guilds and DMs)</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :class:`Message`</span>
+<span class="sd">        - :attr:`Client.cached_messages`</span>
+
+<span class="sd">        Note that due to an implicit relationship this also corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_reaction_add` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_reaction_remove` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_reaction_clear` (both guilds and DMs)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">9</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">12</span><span class="p">)</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild message related events are enabled.</span>
+
+<span class="sd">        See also :attr:`dm_messages` for DMs or :attr:`messages` for both.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_message` (only for guilds)</span>
+<span class="sd">        - :func:`on_message_edit` (only for guilds)</span>
+<span class="sd">        - :func:`on_message_delete` (only for guilds)</span>
+<span class="sd">        - :func:`on_raw_message_delete` (only for guilds)</span>
+<span class="sd">        - :func:`on_raw_message_edit` (only for guilds)</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :class:`Message`</span>
+<span class="sd">        - :attr:`Client.cached_messages` (only for guilds)</span>
+
+<span class="sd">        Note that due to an implicit relationship this also corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_reaction_add` (only for guilds)</span>
+<span class="sd">        - :func:`on_reaction_remove` (only for guilds)</span>
+<span class="sd">        - :func:`on_reaction_clear` (only for guilds)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">9</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dm_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether direct message related events are enabled.</span>
+
+<span class="sd">        See also :attr:`guild_messages` for guilds or :attr:`messages` for both.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_message` (only for DMs)</span>
+<span class="sd">        - :func:`on_message_edit` (only for DMs)</span>
+<span class="sd">        - :func:`on_message_delete` (only for DMs)</span>
+<span class="sd">        - :func:`on_raw_message_delete` (only for DMs)</span>
+<span class="sd">        - :func:`on_raw_message_edit` (only for DMs)</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :class:`Message`</span>
+<span class="sd">        - :attr:`Client.cached_messages` (only for DMs)</span>
+
+<span class="sd">        Note that due to an implicit relationship this also corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_reaction_add` (only for DMs)</span>
+<span class="sd">        - :func:`on_reaction_remove` (only for DMs)</span>
+<span class="sd">        - :func:`on_reaction_clear` (only for DMs)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">12</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild and direct message reaction related events are enabled.</span>
+
+<span class="sd">        This is a shortcut to set or get both :attr:`guild_reactions` and :attr:`dm_reactions`.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_reaction_add` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_reaction_remove` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_reaction_clear` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_raw_reaction_add` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_raw_reaction_remove` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_raw_reaction_clear` (both guilds and DMs)</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :attr:`Message.reactions` (both guild and DM messages)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span><span class="p">)</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild message reaction related events are enabled.</span>
+
+<span class="sd">        See also :attr:`dm_reactions` for DMs or :attr:`reactions` for both.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_reaction_add` (only for guilds)</span>
+<span class="sd">        - :func:`on_reaction_remove` (only for guilds)</span>
+<span class="sd">        - :func:`on_reaction_clear` (only for guilds)</span>
+<span class="sd">        - :func:`on_raw_reaction_add` (only for guilds)</span>
+<span class="sd">        - :func:`on_raw_reaction_remove` (only for guilds)</span>
+<span class="sd">        - :func:`on_raw_reaction_clear` (only for guilds)</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :attr:`Message.reactions` (only for guild messages)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">10</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dm_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether direct message reaction related events are enabled.</span>
+
+<span class="sd">        See also :attr:`guild_reactions` for guilds or :attr:`reactions` for both.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_reaction_add` (only for DMs)</span>
+<span class="sd">        - :func:`on_reaction_remove` (only for DMs)</span>
+<span class="sd">        - :func:`on_reaction_clear` (only for DMs)</span>
+<span class="sd">        - :func:`on_raw_reaction_add` (only for DMs)</span>
+<span class="sd">        - :func:`on_raw_reaction_remove` (only for DMs)</span>
+<span class="sd">        - :func:`on_raw_reaction_clear` (only for DMs)</span>
+
+<span class="sd">        This also corresponds to the following attributes and classes in terms of cache:</span>
+
+<span class="sd">        - :attr:`Message.reactions` (only for DM messages)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">typing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild and direct message typing related events are enabled.</span>
+
+<span class="sd">        This is a shortcut to set or get both :attr:`guild_typing` and :attr:`dm_typing`.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_typing` (both guilds and DMs)</span>
+
+<span class="sd">        This does not correspond to any attributes or classes in the library in terms of cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">11</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">14</span><span class="p">)</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild_typing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild and direct message typing related events are enabled.</span>
+
+<span class="sd">        See also :attr:`dm_typing` for DMs or :attr:`typing` for both.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_typing` (only for guilds)</span>
+
+<span class="sd">        This does not correspond to any attributes or classes in the library in terms of cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">11</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dm_typing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild and direct message typing related events are enabled.</span>
+
+<span class="sd">        See also :attr:`guild_typing` for guilds or :attr:`typing` for both.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_typing` (only for DMs)</span>
+
+<span class="sd">        This does not correspond to any attributes or classes in the library in terms of cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">14</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">message_content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether message content, attachments, embeds and components will be available in messages</span>
+<span class="sd">        which do not meet the following criteria:</span>
+
+<span class="sd">        - The message was sent by the client</span>
+<span class="sd">        - The message was sent in direct messages</span>
+<span class="sd">        - The message mentions the client</span>
+
+<span class="sd">        This applies to the following events:</span>
+
+<span class="sd">        - :func:`on_message`</span>
+<span class="sd">        - :func:`on_message_edit`</span>
+<span class="sd">        - :func:`on_message_delete`</span>
+<span class="sd">        - :func:`on_raw_message_edit`</span>
+
+<span class="sd">        For more information go to the :ref:`message content intent documentation &lt;need_message_content_intent&gt;`.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            Currently, this requires opting in explicitly via the developer portal as well.</span>
+<span class="sd">            Bots in over 100 guilds will need to apply to Discord for verification.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">15</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild_scheduled_events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild scheduled event related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_scheduled_event_create`</span>
+<span class="sd">        - :func:`on_scheduled_event_update`</span>
+<span class="sd">        - :func:`on_scheduled_event_delete`</span>
+<span class="sd">        - :func:`on_scheduled_event_user_add`</span>
+<span class="sd">        - :func:`on_scheduled_event_user_remove`</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">auto_moderation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether auto moderation related events are enabled.</span>
+
+<span class="sd">        This is a shortcut to set or get both :attr:`auto_moderation_configuration`</span>
+<span class="sd">        and :attr:`auto_moderation_execution`.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_automod_rule_create`</span>
+<span class="sd">        - :func:`on_automod_rule_update`</span>
+<span class="sd">        - :func:`on_automod_rule_delete`</span>
+<span class="sd">        - :func:`on_automod_action`</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">20</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">21</span><span class="p">)</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">auto_moderation_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether auto moderation configuration related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_automod_rule_create`</span>
+<span class="sd">        - :func:`on_automod_rule_update`</span>
+<span class="sd">        - :func:`on_automod_rule_delete`</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">20</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">auto_moderation_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether auto moderation execution related events are enabled.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+<span class="sd">        - :func:`on_automod_action`</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">21</span>
+
+    <span class="nd">@alias_flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">polls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild and direct messages poll related events are enabled.</span>
+
+<span class="sd">        This is a shortcut to set or get both :attr:`guild_polls` and :attr:`dm_polls`.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_poll_vote_add` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_poll_vote_remove` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_raw_poll_vote_add` (both guilds and DMs)</span>
+<span class="sd">        - :func:`on_raw_poll_vote_remove` (both guilds and DMs)</span>
+
+<span class="sd">        .. versionadded:: 2.4</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">25</span><span class="p">)</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether guild poll related events are enabled.</span>
+
+<span class="sd">        See also :attr:`dm_polls` and :attr:`polls`.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_poll_vote_add` (only for guilds)</span>
+<span class="sd">        - :func:`on_poll_vote_remove` (only for guilds)</span>
+<span class="sd">        - :func:`on_raw_poll_vote_add` (only for guilds)</span>
+<span class="sd">        - :func:`on_raw_poll_vote_remove` (only for guilds)</span>
+
+<span class="sd">        .. versionadded:: 2.4</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dm_polls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether direct messages poll related events are enabled.</span>
+
+<span class="sd">        See also :attr:`guild_polls` and :attr:`polls`.</span>
+
+<span class="sd">        This corresponds to the following events:</span>
+
+<span class="sd">        - :func:`on_poll_vote_add` (only for DMs)</span>
+<span class="sd">        - :func:`on_poll_vote_remove` (only for DMs)</span>
+<span class="sd">        - :func:`on_raw_poll_vote_add` (only for DMs)</span>
+<span class="sd">        - :func:`on_raw_poll_vote_remove` (only for DMs)</span>
+
+<span class="sd">        .. versionadded:: 2.4</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">25</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MemberCacheFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Controls the library&#39;s cache policy when it comes to members.</span>
+
+<span class="sd">    This allows for finer grained control over what members are cached.</span>
+<span class="sd">    Note that the bot&#39;s own member is always cached. This class is passed</span>
+<span class="sd">    to the ``member_cache_flags`` parameter in :class:`Client`.</span>
+
+<span class="sd">    Due to a quirk in how Discord works, in order to ensure proper cleanup</span>
+<span class="sd">    of cache resources it is recommended to have :attr:`Intents.members`</span>
+<span class="sd">    enabled. Otherwise the library cannot know when a member leaves a guild and</span>
+<span class="sd">    is thus unable to cleanup after itself.</span>
+
+<span class="sd">    To construct an object you can pass keyword arguments denoting the flags</span>
+<span class="sd">    to enable or disable.</span>
+
+<span class="sd">    The default value is all flags enabled.</span>
+
+<span class="sd">    .. versionadded:: 1.5</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two flags are equal.</span>
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a MemberCacheFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a MemberCacheFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a MemberCacheFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a MemberCacheFlags instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">               Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">               Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">               to be, for example, constructed as a dict or a list of pairs.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">_MemberCacheFlagsKwargs</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">bits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s1"> is not a valid flag name.&#39;</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MemberCacheFlags</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MemberCacheFlags</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates a :class:`MemberCacheFlags` with everything enabled.&quot;&quot;&quot;</span>
+        <span class="n">bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">bits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">none</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MemberCacheFlags</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MemberCacheFlags</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates a :class:`MemberCacheFlags` with everything disabled.&quot;&quot;&quot;</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether to cache members that are in voice.</span>
+
+<span class="sd">        This requires :attr:`Intents.voice_states`.</span>
+
+<span class="sd">        Members that leave voice are no longer cached.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">joined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether to cache members that joined the guild</span>
+<span class="sd">        or are chunked as part of the initial log in flow.</span>
+
+<span class="sd">        This requires :attr:`Intents.members`.</span>
+
+<span class="sd">        Members that leave the guild are no longer cached.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_intents</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MemberCacheFlags</span><span class="p">],</span> <span class="n">intents</span><span class="p">:</span> <span class="n">Intents</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MemberCacheFlags</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates a :class:`MemberCacheFlags` based on</span>
+<span class="sd">        the currently selected :class:`Intents`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ------------</span>
+<span class="sd">        intents: :class:`Intents`</span>
+<span class="sd">            The intents to select from.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ---------</span>
+<span class="sd">        :class:`MemberCacheFlags`</span>
+<span class="sd">            The resulting member cache flags.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">intents</span><span class="o">.</span><span class="n">members</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joined</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">intents</span><span class="o">.</span><span class="n">voice_states</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">voice</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_verify_intents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intents</span><span class="p">:</span> <span class="n">Intents</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">voice</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">intents</span><span class="o">.</span><span class="n">voice_states</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;MemberCacheFlags.voice requires Intents.voice_states&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">joined</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">intents</span><span class="o">.</span><span class="n">members</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;MemberCacheFlags.joined requires Intents.members&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_voice_only</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">1</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ApplicationFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord Application flags.</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two ApplicationFlags are equal.</span>
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two ApplicationFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns an ApplicationFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns an ApplicationFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns an ApplicationFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns an ApplicationFlags instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">    .. versionadded:: 2.0</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">auto_mod_badge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application uses at least 100 automod rules across all guilds.</span>
+<span class="sd">        This shows up as a badge in the official client.</span>
+
+<span class="sd">        .. versionadded:: 2.3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gateway_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is verified and is allowed to</span>
+<span class="sd">        receive presence information over the gateway.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">12</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gateway_presence_limited</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is allowed to receive limited</span>
+<span class="sd">        presence information over the gateway.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">13</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gateway_guild_members</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is verified and is allowed to</span>
+<span class="sd">        receive guild members information over the gateway.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">14</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gateway_guild_members_limited</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is allowed to receive limited</span>
+<span class="sd">        guild members information over the gateway.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">15</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verification_pending_guild_limit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is currently pending verification</span>
+<span class="sd">        and has hit the guild limit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embedded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is embedded within the Discord client.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">17</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gateway_message_content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is verified and is allowed to</span>
+<span class="sd">        read message content in guilds.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">18</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gateway_message_content_limited</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application is unverified and is allowed to</span>
+<span class="sd">        read message content in guilds.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">19</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">app_commands_badge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application has registered a global application</span>
+<span class="sd">        command. This shows up as a badge in the official client.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">active</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the application has had at least one global application</span>
+<span class="sd">        command used in the last 30 days.</span>
+
+<span class="sd">        .. versionadded:: 2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChannelFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord :class:`~discord.abc.GuildChannel` or :class:`Thread` flags.</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two channel flags are equal.</span>
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two channel flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a ChannelFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a ChannelFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a ChannelFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a ChannelFlags instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">    .. versionadded:: 2.0</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pinned</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the thread is pinned to the forum channel.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">require_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if a tag is required to be specified when creating a thread</span>
+<span class="sd">        in a :class:`ForumChannel`.</span>
+
+<span class="sd">        .. versionadded:: 2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hide_media_download_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the client hides embedded media download options in a :class:`ForumChannel`.</span>
+<span class="sd">        Only available in media channels.</span>
+
+<span class="sd">        .. versionadded:: 2.4</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">15</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ArrayFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Self</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="c1"># This is a micro-optimization given the frequency this object can be created.</span>
+        <span class="c1"># (1).__lshift__ is used in place of lambda x: 1 &lt;&lt; x</span>
+        <span class="c1"># prebinding to a method of a constant rather than define a lambda.</span>
+        <span class="c1"># Pairing this with map, is essentially equivalent to (1 &lt;&lt; x for x in value)</span>
+        <span class="c1"># reduction using operator.or_ instead of defining a lambda each call</span>
+        <span class="c1"># Discord sends these starting with a value of 1</span>
+        <span class="c1"># Rather than subtract 1 from each element prior to left shift,</span>
+        <span class="c1"># we shift right by 1 once at the end.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">or_</span><span class="p">,</span> <span class="nb">map</span><span class="p">((</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="fm">__lshift__</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">offset</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">bit_length</span><span class="p">())</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates an instance of ArrayFlags with everything enabled.&quot;&quot;&quot;</span>
+        <span class="n">bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">VALID_FLAGS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">bits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">none</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Self</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A factory method that creates an instance of ArrayFlags with everything disabled.&quot;&quot;&quot;</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_VALUE</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AutoModPresets</span><span class="p">(</span><span class="n">ArrayFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord :class:`AutoModRule` presets.</span>
+
+<span class="sd">    .. versionadded:: 2.0</span>
+
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two AutoMod preset flags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two AutoMod preset flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns an AutoModPresets instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns an AutoModPresets instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns an AutoModPresets instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns an AutoModPresets instance with all flags inverted from x.</span>
+
+<span class="sd">            .. versionadded:: 2.0</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">to_array</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">profanity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether to use the preset profanity filter.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sexual_content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether to use the preset sexual content filter.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">slurs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether to use the preset slurs filter.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AppCommandContext</span><span class="p">(</span><span class="n">ArrayFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord :class:`~discord.app_commands.Command` execution context.</span>
+
+<span class="sd">    .. versionadded:: 2.4</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two AppCommandContext flags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two AppCommandContext flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns an AppCommandContext instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns an AppCommandContext instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns an AppCommandContext instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns an AppCommandContext instance with all flags inverted from x</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULT_VALUE</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether the context allows usage in a guild.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dm_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether the context allows usage in a DM channel.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">private_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether the context allows usage in a DM or a GDM channel.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AppInstallationType</span><span class="p">(</span><span class="n">ArrayFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Represents the installation location of an application command.</span>
+
+<span class="sd">    .. versionadded:: 2.4</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two AppInstallationType flags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two AppInstallationType flags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns an AppInstallationType instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns an AppInstallationType instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns an AppInstallationType instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns an AppInstallationType instance with all flags inverted from x</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether the integration is a guild install.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Whether the integration is a user install.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MemberFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord Guild Member flags</span>
+
+<span class="sd">    .. versionadded:: 2.2</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two MemberFlags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two MemberFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a MemberFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a MemberFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a MemberFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a MemberFlags instance with all flags inverted from x.</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">did_rejoin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member left and rejoined the :attr:`~discord.Member.guild`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">completed_onboarding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member has completed onboarding.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bypasses_verification</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member can bypass the guild verification requirements.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">started_onboarding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member has started onboarding.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member is a guest and can only access</span>
+<span class="sd">        the voice channel they were invited to.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">started_home_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member has started Server Guide new member actions.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">completed_home_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member has completed Server Guide new member actions.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">automod_quarantined_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member&#39;s username, nickname, or global name has been</span>
+<span class="sd">        blocked by AutoMod.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">automod_quarantined_guild_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member&#39;s guild tag has been</span>
+<span class="sd">        blocked by AutoMod.</span>
+
+<span class="sd">        .. versionadded:: 2.6</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">10</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dm_settings_upsell_acknowledged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the member has dismissed the DM settings upsell.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">9</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AttachmentFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord Attachment flags</span>
+
+<span class="sd">    .. versionadded:: 2.4</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two AttachmentFlags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two AttachmentFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a AttachmentFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a AttachmentFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a AttachmentFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a AttachmentFlags instance with all flags inverted from x.</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the attachment is a clip.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">thumbnail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the attachment is a thumbnail.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the attachment has been edited using the remix feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spoiler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the attachment was marked as a spoiler.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">contains_explicit_media</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the attachment was flagged as sensitive content.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">animated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the attachment is an animated image.</span>
+
+<span class="sd">        .. versionadded:: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RoleFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord Role flags</span>
+
+<span class="sd">    .. versionadded:: 2.4</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two RoleFlags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two RoleFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a RoleFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a RoleFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a RoleFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a RoleFlags instance with all flags inverted from x.</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">in_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the role can be selected by members in an onboarding prompt.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SKUFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord SKU flags</span>
+
+<span class="sd">    .. versionadded:: 2.4</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two SKUFlags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two SKUFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a SKUFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x &amp; y, x &amp;= y</span>
+
+<span class="sd">            Returns a SKUFlags instance with only flags enabled on</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a SKUFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a SKUFlags instance with all flags inverted from x.</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Return the flag&#39;s hash.</span>
+
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">available</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the SKU is available for purchase.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guild_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the SKU is a guild subscription.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">user_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the SKU is a user subscription.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EmbedFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord Embed flags</span>
+
+<span class="sd">    .. versionadded:: 2.5</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two EmbedFlags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two EmbedFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns an EmbedFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns an EmbedFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns an EmbedFlags instance with all flags inverted from x.</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Returns the flag&#39;s hash.</span>
+
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">contains_explicit_media</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the embed was flagged as sensitive content.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">content_inventory_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if the embed is a reply to an activity card, and is no</span>
+<span class="sd">        longer displayed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>
+
+
+<span class="nd">@fill_with_flags</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">InviteFlags</span><span class="p">(</span><span class="n">BaseFlags</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps up the Discord Invite flags</span>
+
+<span class="sd">    .. versionadded:: 2.6</span>
+
+<span class="sd">    .. container:: operations</span>
+
+<span class="sd">        .. describe:: x == y</span>
+
+<span class="sd">            Checks if two InviteFlags are equal.</span>
+
+<span class="sd">        .. describe:: x != y</span>
+
+<span class="sd">            Checks if two InviteFlags are not equal.</span>
+
+<span class="sd">        .. describe:: x | y, x |= y</span>
+
+<span class="sd">            Returns a InviteFlags instance with all enabled flags from</span>
+<span class="sd">            both x and y.</span>
+
+<span class="sd">        .. describe:: x ^ y, x ^= y</span>
+
+<span class="sd">            Returns a InviteFlags instance with only flags enabled on</span>
+<span class="sd">            only one of x or y, not on both.</span>
+
+<span class="sd">        .. describe:: ~x</span>
+
+<span class="sd">            Returns a InviteFlags instance with all flags inverted from x.</span>
+
+<span class="sd">        .. describe:: hash(x)</span>
+
+<span class="sd">            Returns the flag&#39;s hash.</span>
+
+<span class="sd">        .. describe:: iter(x)</span>
+
+<span class="sd">            Returns an iterator of ``(name, value)`` pairs. This allows it</span>
+<span class="sd">            to be, for example, constructed as a dict or a list of pairs.</span>
+<span class="sd">            Note that aliases are not shown.</span>
+
+<span class="sd">        .. describe:: bool(b)</span>
+
+<span class="sd">            Returns whether any flag is set to ``True``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value: :class:`int`</span>
+<span class="sd">        The raw value. You should query flags via the properties</span>
+<span class="sd">        rather than using this raw value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@flag_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">guest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;:class:`bool`: Returns ``True`` if this is a guest invite for a voice channel.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Colby McClure.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

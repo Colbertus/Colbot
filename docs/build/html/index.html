@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colbot documentation &mdash; Colbot N/A documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=0200cdce"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Colbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Colbot documentation</a><ul>
+<li><a class="reference internal" href="#colbot.TOKEN"><code class="docutils literal notranslate"><span class="pre">TOKEN</span></code></a></li>
+<li><a class="reference internal" href="#colbot.ID"><code class="docutils literal notranslate"><span class="pre">ID</span></code></a></li>
+<li><a class="reference internal" href="#colbot.intents"><code class="docutils literal notranslate"><span class="pre">intents</span></code></a></li>
+<li><a class="reference internal" href="#colbot.bot"><code class="docutils literal notranslate"><span class="pre">bot</span></code></a></li>
+<li><a class="reference internal" href="#colbot.initial_extensions"><code class="docutils literal notranslate"><span class="pre">initial_extensions</span></code></a></li>
+<li><a class="reference internal" href="#colbot.test_guild"><code class="docutils literal notranslate"><span class="pre">test_guild</span></code></a></li>
+<li><a class="reference internal" href="#colbot.Colbot"><code class="docutils literal notranslate"><span class="pre">Colbot</span></code></a></li>
+<li><a class="reference internal" href="#colbot.on_ready"><code class="docutils literal notranslate"><span class="pre">on_ready()</span></code></a></li>
+<li><a class="reference internal" href="#cog.APICog"><code class="docutils literal notranslate"><span class="pre">APICog</span></code></a><ul>
+<li><a class="reference internal" href="#cog.APICog.city_lookup"><code class="docutils literal notranslate"><span class="pre">APICog.city_lookup</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cog.setup"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li><a class="reference internal" href="#service.APIService"><code class="docutils literal notranslate"><span class="pre">APIService</span></code></a><ul>
+<li><a class="reference internal" href="#service.APIService.fetch_lat_long"><code class="docutils literal notranslate"><span class="pre">APIService.fetch_lat_long()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#weathermodal.WeatherModal"><code class="docutils literal notranslate"><span class="pre">WeatherModal</span></code></a><ul>
+<li><a class="reference internal" href="#weathermodal.WeatherModal.api_query"><code class="docutils literal notranslate"><span class="pre">WeatherModal.api_query</span></code></a></li>
+<li><a class="reference internal" href="#weathermodal.WeatherModal.interaction"><code class="docutils literal notranslate"><span class="pre">WeatherModal.interaction</span></code></a></li>
+<li><a class="reference internal" href="#weathermodal.WeatherModal.on_submit"><code class="docutils literal notranslate"><span class="pre">WeatherModal.on_submit()</span></code></a></li>
+<li><a class="reference internal" href="#weathermodal.WeatherModal.title"><code class="docutils literal notranslate"><span class="pre">WeatherModal.title</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Colbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Colbot documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="colbot-documentation">
+<h1>Colbot documentation<a class="headerlink" href="#colbot-documentation" title="Link to this heading"></a></h1>
+<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
+documentation for details.</p>
+<div class="toctree-wrapper compound">
+</div>
+<p id="module-colbot">Module meant to initialize ‘Colbot’ along with loading its’ extensions.</p>
+<p>This module contains the primary logic for the Colbot discord client,
+including custom command handling and automated event listeners.
+It utilizes the discord.py library as its base.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.TOKEN">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">TOKEN</span></span><a class="headerlink" href="#colbot.TOKEN" title="Link to this definition"></a></dt>
+<dd><p>String token identifier needed to start the bot on Discord.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.ID">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">ID</span></span><a class="headerlink" href="#colbot.ID" title="Link to this definition"></a></dt>
+<dd><p>Server ID needed to refresh ‘/’ commands on Discord.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.intents">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">intents</span></span><a class="headerlink" href="#colbot.intents" title="Link to this definition"></a></dt>
+<dd><p>Discord object that defines what the bot can/cannot do.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>discord.Intents</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.bot">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">bot</span></span><a class="headerlink" href="#colbot.bot" title="Link to this definition"></a></dt>
+<dd><p>Discord object that gets created from Colbot class that uses the ‘intents’ object above.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#colbot.Colbot" title="colbot.Colbot">Colbot</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.initial_extensions">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">initial_extensions</span></span><a class="headerlink" href="#colbot.initial_extensions" title="Link to this definition"></a></dt>
+<dd><p>List containing the scripts that need to be connected to
+the bot on startup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="colbot.test_guild">
+<span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">test_guild</span></span><a class="headerlink" href="#colbot.test_guild" title="Link to this definition"></a></dt>
+<dd><p>Discord object that contains the ID of my discord server for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>discord.Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="colbot.Colbot">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">Colbot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bot_intents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Intents</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/colbot.html#Colbot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#colbot.Colbot" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Bot</span></code></p>
+<p>Class derived from ‘commands.Bot’ to initialize a ‘bot’ object.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="colbot.on_ready">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">colbot.</span></span><span class="sig-name descname"><span class="pre">on_ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/colbot.html#on_ready"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#colbot.on_ready" title="Link to this definition"></a></dt>
+<dd><p>Asynchronous function meant to prepare the bot to start receiving commands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>commands.ExtensionNotFound</strong> – If a certain python script could not be loaded in as an extension.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-cog">Module Docstring Placeholder</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cog.APICog">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cog.</span></span><span class="sig-name descname"><span class="pre">APICog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cog.html#APICog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cog.APICog" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Cog</span></code></p>
+<p>Class docstring placeholder</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cog.APICog.city_lookup">
+<span class="sig-name descname"><span class="pre">city_lookup</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;discord.app_commands.commands.Command</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#cog.APICog.city_lookup" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cog.setup">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cog.</span></span><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#colbot.Colbot" title="colbot.Colbot"><span class="pre">Colbot</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cog.html#setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cog.setup" title="Link to this definition"></a></dt>
+<dd><p>Function docstring placeholder</p>
+</dd></dl>
+
+<p id="module-service">Module Docstring Placeholder</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="service.APIService">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">service.</span></span><span class="sig-name descname"><span class="pre">APIService</span></span><a class="reference internal" href="_modules/service.html#APIService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#service.APIService" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class docstring placeholder</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="service.APIService.fetch_lat_long">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fetch_lat_long</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/service.html#APIService.fetch_lat_long"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#service.APIService.fetch_lat_long" title="Link to this definition"></a></dt>
+<dd><p>Function docstring placeholder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>string</em>) – The formatted query string that gets used to find the relevant information from the OpenWeather API.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PLACEHOLDER</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>PLACEHOLDER</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-weathermodal">Module docstring placeholder</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">weathermodal.</span></span><span class="sig-name descname"><span class="pre">WeatherModal</span></span><a class="reference internal" href="_modules/weathermodal.html#WeatherModal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#weathermodal.WeatherModal" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Modal</span></code></p>
+<p>Class docstring placeholder</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.api_query">
+<span class="sig-name descname"><span class="pre">api_query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#weathermodal.WeatherModal.api_query" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.interaction">
+<span class="sig-name descname"><span class="pre">interaction</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#weathermodal.WeatherModal.interaction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.on_submit">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Interaction</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/weathermodal.html#WeatherModal.on_submit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#weathermodal.WeatherModal.on_submit" title="Link to this definition"></a></dt>
+<dd><p>Function docstring placeholder</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="weathermodal.WeatherModal.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Coordinate</span> <span class="pre">Lookup'</span></em><a class="headerlink" href="#weathermodal.WeatherModal.title" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Colby McClure.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

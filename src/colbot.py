@@ -6,8 +6,13 @@ including custom command handling and automated event listeners.
 It utilizes the discord.py library as its base.
 
 Attributes:
-    TOKEN (str): String token identifier needed to initialize the bot.
+    TOKEN (str): String token identifier needed to start the bot on Discord.
     ID (int): Server ID needed to refresh '/' commands on Discord.
+    intents (discord.Intents): Discord object that defines what the bot can/cannot do.
+    bot (Colbot): Discord object that gets created from Colbot class that uses the 'intents' object above.
+    initial_extensions (list[str]): List containing the scripts that need to be connected to
+        the bot on startup.
+    test_guild (discord.Object): Discord object that contains the ID of my discord server for testing.
 """
 
 # Needed Imports
@@ -21,16 +26,7 @@ from fastapi import HTTPException
 
 class Colbot(commands.Bot):
     """
-    Class derived from 'commands.Bot' used to make references in other components of Colbot.
-
-    Args:
-        None
-
-    Returns:
-        None
-
-    Raises:
-        None
+    Class derived from 'commands.Bot' to initialize a 'bot' object.
     """
 
     def __init__(self, bot_intents: discord.Intents) -> None:
@@ -49,7 +45,7 @@ if not TOKEN:
     print("ERROR: Bot token was not found in .env file.")
 
 else:
-    print("Bot token loaded successfully")
+    print("Bot token loaded successfully!")
 
 # Need to set the bot's intentions to the default while setting message conent to 'True', meaning
 # that the bot can send readable messages
@@ -70,13 +66,7 @@ test_guild = discord.Object(id=ID)
 @bot.event
 async def on_ready() -> None:
     """
-    Function meant to prepare the bot to start recieving commands.
-
-    Parameters:
-        None
-
-    Returns:
-        None
+    Asynchronous function meant to prepare the bot to start receiving commands.
 
     Raises:
         commands.ExtensionNotFound: If a certain python script could not be loaded in as an extension.
@@ -103,10 +93,7 @@ async def syncmds(ctx: commands.Context[Colbot]) -> None:
     Command function for syncing the '/' commands with Discord.
 
     Args:
-        ctx: Context object that the bot uses.
-
-    Returns:
-        None
+        ctx (commands.Context): Context object that the bot uses to send messages amongst other things.
 
     Raises:
         HTTPException: If syncing the commands failed.
@@ -118,7 +105,7 @@ async def syncmds(ctx: commands.Context[Colbot]) -> None:
         fmt = await ctx.bot.tree.sync(guild=test_guild)
         await ctx.send(f"Synced {len(fmt)} commands to the current server")
     except HTTPException:
-        print("Failed to comamnds from {test_guild}.")
+        print("Failed to sync commands to {test_guild}.")
     except discord.HTTPException:
         print("Failed to send message to {ctx}.")
 

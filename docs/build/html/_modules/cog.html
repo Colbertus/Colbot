@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cog &mdash; Colbot N/A documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=0200cdce"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Colbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Colbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cog</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cog</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module Docstring Placeholder</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">aiohttp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">discord</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discord</span><span class="w"> </span><span class="kn">import</span> <span class="n">app_commands</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discord.ext</span><span class="w"> </span><span class="kn">import</span> <span class="n">commands</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">colbot</span><span class="w"> </span><span class="kn">import</span> <span class="n">Colbot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">service</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">weathermodal</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeatherModal</span>
+
+<span class="c1"># This will be temporary but serves to create the needed guild object used to sync commands faster</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="s2">&quot;token.env&quot;</span><span class="p">)</span>
+<span class="n">ID</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TEST_SERVER_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">))</span>
+<span class="n">test_guild</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">)</span>
+
+
+<span class="c1"># Class used to store the commands for the OpenWeatherAPI</span>
+<div class="viewcode-block" id="APICog">
+<a class="viewcode-back" href="../index.html#cog.APICog">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">APICog</span><span class="p">(</span><span class="n">commands</span><span class="o">.</span><span class="n">Cog</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class docstring placeholder</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">Colbot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="c1"># Initialize both the bot and the API Service</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_service</span> <span class="o">=</span> <span class="n">APIService</span><span class="p">()</span>
+
+    <span class="c1"># Discord Command: city_lookup</span>
+    <span class="nd">@app_commands</span><span class="o">.</span><span class="n">guilds</span><span class="p">(</span><span class="n">test_guild</span><span class="p">)</span>
+    <span class="nd">@app_commands</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;city_lookup&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">city_lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interaction</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">Interaction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function docstring placeholder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Setup the modal weather object that&#39;ll be used for the query before sending it</span>
+        <span class="n">modal</span> <span class="o">=</span> <span class="n">WeatherModal</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">interaction</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">send_modal</span><span class="p">(</span><span class="n">modal</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">modal</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="n">modal</span><span class="o">.</span><span class="n">api_query</span>
+        <span class="n">final_interaction</span> <span class="o">=</span> <span class="n">modal</span><span class="o">.</span><span class="n">interaction</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">query</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">final_interaction</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="c1"># Fetch the data returned from the query using the service class</span>
+            <span class="n">lat</span><span class="p">,</span> <span class="n">long</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_service</span><span class="o">.</span><span class="n">fetch_lat_long</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+            <span class="c1"># Split up what originally gets used for the API by commas</span>
+            <span class="n">query_split</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Depending on if a state gets passed in or not, make sure to format the</span>
+            <span class="c1"># queried information</span>
+            <span class="k">if</span> <span class="n">query_split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">city_state_country</span> <span class="o">=</span> <span class="n">query_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="n">query_split</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">city_state_country</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">query_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="n">query_split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="n">query_split</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="p">)</span>
+
+            <span class="c1"># If there was no result for the city/state/country entered, initialize the</span>
+            <span class="c1"># following embedded message</span>
+            <span class="k">if</span> <span class="n">lat</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">embed</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span>
+                    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;No Result for *</span><span class="si">{</span><span class="n">city_state_country</span><span class="si">}</span><span class="s2">*&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">discord</span><span class="o">.</span><span class="n">Color</span><span class="o">.</span><span class="n">dark_purple</span><span class="p">(),</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Otherwise, setup the embedded message to the have the needed information before</span>
+            <span class="c1"># sending it</span>
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="c1"># Create the formatted message that the bot is going to use</span>
+                <span class="n">message_desc</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;**Lat:** *&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;*</span><span class="se">\n</span><span class="s2">**Long**: *&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">long</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Create an embedded discord object that stores the information from the query</span>
+                <span class="n">embed</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span>
+                    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Result for </span><span class="si">{</span><span class="n">city_state_country</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">message_desc</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">discord</span><span class="o">.</span><span class="n">Color</span><span class="o">.</span><span class="n">dark_purple</span><span class="p">(),</span>
+                <span class="p">)</span>
+            <span class="c1"># Have the bot send the embedded object message to the discord chat</span>
+            <span class="k">await</span> <span class="n">final_interaction</span><span class="o">.</span><span class="n">followup</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">,</span> <span class="n">ephemeral</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientConnectorError</span><span class="p">:</span>
+
+            <span class="c1"># If an error occurred</span>
+            <span class="k">await</span> <span class="n">final_interaction</span><span class="o">.</span><span class="n">followup</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;A connection error has occurred&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Asynchoronous function used to add the cog to the bot</span>
+
+
+<div class="viewcode-block" id="setup">
+<a class="viewcode-back" href="../index.html#cog.setup">[docs]</a>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="n">bot</span><span class="p">:</span> <span class="n">Colbot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function docstring placeholder</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">add_cog</span><span class="p">(</span><span class="n">APICog</span><span class="p">(</span><span class="n">bot</span><span class="p">))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Colby McClure.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

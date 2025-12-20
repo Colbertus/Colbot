@@ -16,6 +16,8 @@ mypy = "*"
 flake8 = "*"
 sphinx = "*"
 fastapi = "*"
+sphinx-rtd-theme = "*"
+make = "*"
 
 [dev-packages]
 

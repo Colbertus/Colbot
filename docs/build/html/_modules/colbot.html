@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>colbot &mdash; Colbot N/A documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=0200cdce"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Colbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Colbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">colbot</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for colbot</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module meant to initialize &#39;Colbot&#39; along with loading its&#39; extensions.</span>
+
+<span class="sd">This module contains the primary logic for the Colbot discord client,</span>
+<span class="sd">including custom command handling and automated event listeners.</span>
+<span class="sd">It utilizes the discord.py library as its base.</span>
+
+<span class="sd">Attributes:</span>
+<span class="sd">    TOKEN (str): String token identifier needed to start the bot on Discord.</span>
+<span class="sd">    ID (int): Server ID needed to refresh &#39;/&#39; commands on Discord.</span>
+<span class="sd">    intents (discord.Intents): Discord object that defines what the bot can/cannot do.</span>
+<span class="sd">    bot (Colbot): Discord object that gets created from Colbot class that uses the &#39;intents&#39; object above.</span>
+<span class="sd">    initial_extensions (list[str]): List containing the scripts that need to be connected to</span>
+<span class="sd">        the bot on startup.</span>
+<span class="sd">    test_guild (discord.Object): Discord object that contains the ID of my discord server for testing.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Needed Imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">discord</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">discord.ext</span><span class="w"> </span><span class="kn">import</span> <span class="n">commands</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPException</span>
+
+
+<div class="viewcode-block" id="Colbot">
+<a class="viewcode-back" href="../index.html#colbot.Colbot">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Colbot</span><span class="p">(</span><span class="n">commands</span><span class="o">.</span><span class="n">Bot</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class derived from &#39;commands.Bot&#39; to initialize a &#39;bot&#39; object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot_intents</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">Intents</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">command_prefix</span><span class="o">=</span><span class="s2">&quot;!&quot;</span><span class="p">,</span> <span class="n">intents</span><span class="o">=</span><span class="n">bot_intents</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Load the environment file that contains the Colbot token</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="s2">&quot;token.env&quot;</span><span class="p">)</span>
+
+<span class="c1"># Retrieve the token and the server guild ID from the env file</span>
+<span class="n">TOKEN</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DISCORD_TOKEN&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
+<span class="n">ID</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TEST_SERVER_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">))</span>
+
+<span class="c1"># If the token is not present in the &#39;.env&#39; file</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">TOKEN</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Bot token was not found in .env file.&quot;</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bot token loaded successfully!&quot;</span><span class="p">)</span>
+
+<span class="c1"># Need to set the bot&#39;s intentions to the default while setting message conent to &#39;True&#39;, meaning</span>
+<span class="c1"># that the bot can send readable messages</span>
+<span class="n">intents</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Intents</span><span class="o">.</span><span class="n">default</span><span class="p">()</span>
+<span class="n">intents</span><span class="o">.</span><span class="n">message_content</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="c1"># Initialize the command prefix to &#39;!&#39; while setting the intents</span>
+<span class="n">bot</span> <span class="o">=</span> <span class="n">Colbot</span><span class="p">(</span><span class="n">intents</span><span class="p">)</span>
+
+<span class="c1"># Set &#39;cog.py&#39; to be the module loaded when starting the bot</span>
+<span class="n">initial_extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cog&quot;</span><span class="p">]</span>
+
+<span class="c1"># Setup the guild in which we are using the slash commands in (TEMP)</span>
+<span class="n">test_guild</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="on_ready">
+<a class="viewcode-back" href="../index.html#colbot.on_ready">[docs]</a>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">event</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_ready</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Asynchronous function meant to prepare the bot to start receiving commands.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        commands.ExtensionNotFound: If a certain python script could not be loaded in as an extension.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Print out a debug login message once the bot connects</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;We have logged in as </span><span class="si">{</span><span class="n">bot</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Load each extension from the list from above</span>
+    <span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">initial_extensions</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded extension </span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">commands</span><span class="o">.</span><span class="n">ExtensionNotFound</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to load extension </span><span class="si">{extension}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<span class="c1"># The following command will allow one to resync the slash commands in order to update the</span>
+<span class="c1"># server for debugging purposes</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">syncmds</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">commands</span><span class="o">.</span><span class="n">Context</span><span class="p">[</span><span class="n">Colbot</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Command function for syncing the &#39;/&#39; commands with Discord.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ctx (commands.Context): Context object that the bot uses to send messages amongst other things.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HTTPException: If syncing the commands failed.</span>
+<span class="sd">        discord.HTTPException: If the synced message failed to send.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Sync the commands and have the bot send out how many synced commands there are</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">guild</span><span class="o">=</span><span class="n">test_guild</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Synced </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span><span class="si">}</span><span class="s2"> commands to the current server&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to sync commands to </span><span class="si">{test_guild}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">HTTPException</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to send message to </span><span class="si">{ctx}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Run the bot inside of an event loop that waits for commands</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">TOKEN</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Colby McClure.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
